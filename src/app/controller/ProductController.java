@@ -101,4 +101,8 @@ public class ProductController {
     public boolean updateProduct(Product updated) {
         return productDAO.updateProduct(updated);
     }
+
+    public boolean deleteProductById(int productId) {
+        return productDAO.removeProductById(productId);
+    }
 }

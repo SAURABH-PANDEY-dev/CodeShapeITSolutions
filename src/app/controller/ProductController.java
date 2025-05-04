@@ -97,4 +97,8 @@ public class ProductController {
     public Product getProductById(int productId) {
         return productDAO.getProductById(productId);
     }
+
+    public boolean updateProduct(Product updated) {
+        return productDAO.updateProduct(updated);
+    }
 }

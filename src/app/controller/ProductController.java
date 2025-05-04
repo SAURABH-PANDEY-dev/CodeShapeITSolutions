@@ -2,8 +2,6 @@ package app.controller;
 
 import app.dao.ProductDAO;
 import app.model.Product;
-import app.dao.ProductDAO;
-import app.model.Product;
 import app.view.AddProductWindow;
 import app.view.ViewAllProductsWindow;
 import app.view.SearchProductWindow;
@@ -11,6 +9,9 @@ import app.view.UpdateProductWindow;
 import app.view.DeleteProductWindow;
 import app.view.ExportCSVWindow;
 
+import javax.swing.*;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -19,6 +20,13 @@ import java.util.List;
  * It handles button actions from the UI and invokes the appropriate methods.
  */
 public class ProductController {
+
+    private ProductDAO productDAO;
+
+    // Constructor
+    public ProductController() {
+        this.productDAO = new ProductDAO();  // Initialize the DAO to interact with database
+    }
 
     /**
      * Shows the Add Product window.
@@ -62,46 +70,71 @@ public class ProductController {
 
     /**
      * Exports the list of products to a CSV file.
+     * This method is called when the user clicks the export button.
+     * It internally handles the file path (currently hardcoded).
      */
     public static void exportProductsToCSV() {
-        // This will be implemented in the future
-        System.out.println("Export Products to CSV (not yet implemented)");
-    }
+        // Hardcoding the file path for simplicity (can be customized)
+        ProductController controller = new ProductController();
+        boolean success = controller.exportProductsToCSV("exports/products.csv");
 
+        // Show success or failure message
+        if (success) {
+            JOptionPane.showMessageDialog(null, "✅ Products exported to products.csv");
+        } else {
+            JOptionPane.showMessageDialog(null, "❌ Export failed.");
+        }
+    }
 
     /**
-     * ProductController.java
-     * ----------------------
-     * This class handles the communication between the view and the model (DAO).
-     * It contains the logic for adding products, viewing products, and other actions.
-     *
-     * Author: Saurabh Pandey
-     * Date: 04 May 2025
+     * This method actually exports the products to CSV, using the given file path.
+     * @param filePath The file path where the CSV will be saved.
+     * @return true if successful, false otherwise
      */
-    private ProductDAO productDAO;
+    public boolean exportProductsToCSV(String filePath) {
+        try (FileWriter writer = new FileWriter(filePath)) {
+            writer.write("ID,Name,Quantity,Price\n"); // CSV Header
 
-    // Constructor
-    public ProductController() {
-        this.productDAO = new ProductDAO();  // Initialize the DAO to interact with database
+            for (Product p : getAllProducts()) {
+                writer.write(String.format("%d,%s,%d,%.2f\n",
+                        p.getId(),
+                        p.getName().replace(",", ""),  // Remove commas from names to avoid CSV issues
+                        p.getQuantity(),
+                        p.getPrice()));
+            }
+
+            System.out.println("✅ Products exported successfully to CSV.");
+            return true;
+        } catch (IOException e) {
+            System.out.println("❌ Failed to export products to CSV.");
+            e.printStackTrace();
+            return false;
+        }
     }
+
+    // Methods for handling products
 
     // Method to add a product
     public void addProduct(Product product) {
         productDAO.addProduct(product);
-    }// Call the DAO method to add product to the database
+    }
 
-    public List<Product> getAllProducts(){
+    // Method to get all products
+    public List<Product> getAllProducts() {
         return productDAO.getAllProducts();
     }
 
+    // Method to get a product by its ID
     public Product getProductById(int productId) {
         return productDAO.getProductById(productId);
     }
 
+    // Method to update a product
     public boolean updateProduct(Product updated) {
         return productDAO.updateProduct(updated);
     }
 
+    // Method to delete a product by ID
     public boolean deleteProductById(int productId) {
         return productDAO.removeProductById(productId);
     }

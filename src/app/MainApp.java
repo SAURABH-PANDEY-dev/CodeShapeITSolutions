@@ -1,46 +1,38 @@
 package app;
 
 import app.model.Product;
-import app.dao.ProductDAO;
-
-import java.util.Scanner;
+import app.service.ProductService;
 
 public class MainApp {
     public static void main(String[] args) {
-        System.out.println("=== Welcome to CodeShapeIT Project ===");
+        System.out.println("=== ProductService Test ===");
 
-        // Create DAO instance
-        ProductDAO dao = new ProductDAO();
+        // Create service object
+        ProductService service = new ProductService();
 
-        // Add some products
-        Product p1 = new Product(101, "Dell Laptop", 5, 60000);
-        Product p2 = new Product(102, "HP Laptop", 3, 55000);
-        dao.addProduct(p1);
-        dao.addProduct(p2);
+        // Add products
+        Product p1 = new Product(1, "Monitor", 5, 12000.0);
+        Product p2 = new Product(2, "USB Cable", 25, 250.0);
+        Product p3 = new Product(3, "Keyboard", 0, -500.0); // Invalid test
+
+        service.addProduct(p1);
+        service.addProduct(p2);
+        service.addProduct(p3);  // Should show validation error
 
         // List all products
         System.out.println("\nAll Products:");
-        for (Product p : dao.getAllProducts()) {
+        for (Product p : service.getAllProducts()) {
             System.out.println(p);
         }
 
-        // Get a product by ID
-        int id;
-        System.out.print("Enter the id to search : ");
-        Scanner input = new Scanner(System.in);
-        id = input.nextInt();
-        System.out.println("\nSearching for product with ID :" + id);
-        Product found = dao.getProductById(id);
-        System.out.println(found != null ? found : "Product not found");
-
         // Remove a product
-        System.out.println("\nRemoving product with ID 101...");
-        boolean removed = dao.removeProductById(101);
-        System.out.println(removed ? "Removed successfully" : "Product not found");
+        System.out.println("\nRemoving product with ID 2:");
+        boolean removed = service.removeProductById(2);
+        System.out.println("Removed? " + removed);
 
-        // List all products again
+        // Final list
         System.out.println("\nUpdated Product List:");
-        for (Product p : dao.getAllProducts()) {
+        for (Product p : service.getAllProducts()) {
             System.out.println(p);
         }
     }

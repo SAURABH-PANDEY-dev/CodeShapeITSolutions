@@ -1,53 +1,46 @@
-//package app;
-//
-//import app.util.DBUtil;
-//import app.model.Product;
-//import java.sql.Connection;
-//
-///**
-// * MainApp.java
-// * -----------------------
-// * This is the entry point for the Local Vendor Inventory Tracker system.
-// *
-// * Purpose:
-// * - To launch and test application components step by step
-// * - Here, we are testing the initial database connection
-// */
-//public class MainApp {
-//    public static void main(String[] args) {
-//        Product testProduct = new Product(101,"Test Laptop",10,75000.0);
-//        System.out.println("Product Details : ");
-//        System.out.println(testProduct);
-//
-//    }
-//}
 package app;
 
-import app.dao.ProductDAO;
 import app.model.Product;
+import app.dao.ProductDAO;
+
+import java.util.Scanner;
 
 public class MainApp {
     public static void main(String[] args) {
-        ProductDAO productDAO = new ProductDAO();
+        System.out.println("=== Welcome to CodeShapeIT Project ===");
 
-        // Add sample products
-        productDAO.addProduct(new Product(1, "Laptop",10, 55000.00));
-        productDAO.addProduct(new Product(2, "Mouse",10, 500.00));
-        productDAO.addProduct(new Product(3, "Keyboard",10,1500.00));
+        // Create DAO instance
+        ProductDAO dao = new ProductDAO();
 
-        // Display all products before removal
-        System.out.println("All Products Before Removal:");
-        for (Product p : productDAO.getAllProducts()) {
+        // Add some products
+        Product p1 = new Product(101, "Dell Laptop", 5, 60000);
+        Product p2 = new Product(102, "HP Laptop", 3, 55000);
+        dao.addProduct(p1);
+        dao.addProduct(p2);
+
+        // List all products
+        System.out.println("\nAll Products:");
+        for (Product p : dao.getAllProducts()) {
             System.out.println(p);
         }
 
-        // Remove product with ID 2
-        boolean removed = productDAO.removeProductById(2);
-        System.out.println("\nProduct with ID 2 removed? " + removed);
+        // Get a product by ID
+        int id;
+        System.out.print("Enter the id to search : ");
+        Scanner input = new Scanner(System.in);
+        id = input.nextInt();
+        System.out.println("\nSearching for product with ID :" + id);
+        Product found = dao.getProductById(id);
+        System.out.println(found != null ? found : "Product not found");
 
-        // Display all products after removal
-        System.out.println("\nAll Products After Removal:");
-        for (Product p : productDAO.getAllProducts()) {
+        // Remove a product
+        System.out.println("\nRemoving product with ID 101...");
+        boolean removed = dao.removeProductById(101);
+        System.out.println(removed ? "Removed successfully" : "Product not found");
+
+        // List all products again
+        System.out.println("\nUpdated Product List:");
+        for (Product p : dao.getAllProducts()) {
             System.out.println(p);
         }
     }

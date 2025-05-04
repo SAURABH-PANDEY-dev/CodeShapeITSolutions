@@ -138,4 +138,13 @@ public class ProductController {
     public boolean deleteProductById(int productId) {
         return productDAO.removeProductById(productId);
     }
+
+    /**
+     * Gets all products that are low in stock using ProductDAO.
+     *
+     * @return List of low stock products
+     */
+    public List<Product> getLowStockProducts() {
+        return productDAO.getLowStockProducts();
+    }
 }

@@ -200,4 +200,22 @@ public class ProductDAO {
         }
     }
 
+    /**
+     * Returns a list of products that are low in stock (quantity <= 5).
+     *
+     * @return List of low stock products
+     */
+    public List<Product> getLowStockProducts() {
+        List<Product> allProducts = getAllProducts();
+        List<Product> lowStock = new ArrayList<>();
+
+        for (Product p : allProducts) {
+            if (p.getQuantity() <= 5) {
+                lowStock.add(p);
+            }
+        }
+
+        return lowStock;
+    }
+
 }

@@ -34,7 +34,7 @@ public class DBUtil {
 
             // Connect to the database file; it will be created if it doesn't exist
             conn = DriverManager.getConnection(DB_URL);
-            System.out.println("✅ Connected to SQLite database successfully.");
+            //System.out.println("✅ Connected to SQLite database successfully.");
         } catch (ClassNotFoundException e) {
             System.out.println("❌ SQLite JDBC Driver not found.");
             e.printStackTrace();

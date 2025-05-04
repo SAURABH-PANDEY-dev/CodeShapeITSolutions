@@ -14,7 +14,7 @@ import java.util.List;
  * It connects through DBUtil and creates the product table if it does not exist.
  *
  * Author: Saurabh Pandey
- * Date: [Insert today's date]
+ * Date: 04 May 2025
  */
 
 public class ProductDAO {
@@ -95,7 +95,6 @@ public class ProductDAO {
             System.out.println("❌ Failed to fetch products from database.");
             e.printStackTrace();
         }
-
         return products;
     }
 
@@ -147,7 +146,36 @@ public class ProductDAO {
             System.out.println("❌ Failed to delete product with ID: " + id);
             e.printStackTrace();
         }
+        return false;
+    }
+
+    /**
+     * Update an existing product in the database.
+     * If the ID does not exist, nothing will be changed.
+     *
+     * @param product The product object with updated values.
+     * @return true if updated successfully, false otherwise
+     */
+    public boolean updateProduct(Product product) {
+        String sql = "UPDATE products SET name = ?, quantity = ?, price = ? WHERE id = ?";
+
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, product.getName());
+            stmt.setInt(2, product.getQuantity());
+            stmt.setDouble(3, product.getPrice());
+            stmt.setInt(4, product.getId());
+
+            int affected = stmt.executeUpdate();
+            return affected > 0;
+
+        } catch (SQLException e) {
+            System.out.println("❌ Failed to update product with ID: " + product.getId());
+            e.printStackTrace();
+        }
 
         return false;
     }
+
 }

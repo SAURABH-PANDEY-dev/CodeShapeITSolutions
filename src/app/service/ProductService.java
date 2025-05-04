@@ -53,4 +53,24 @@ public class ProductService {
     public boolean removeProductById(int id) {
         return productDAO.removeProductById(id);
     }
+
+    /**
+     * Update an existing product after validation.
+     *
+     * @param product The product with updated data
+     * @return true if update was successful, false otherwise
+     */
+    public boolean updateProduct(Product product) {
+        if (product.getName() == null || product.getName().isBlank()) {
+            System.out.println("❌ Product name cannot be empty.");
+            return false;
+        }
+        if (product.getQuantity() < 0 || product.getPrice() < 0) {
+            System.out.println("❌ Quantity or price cannot be negative.");
+            return false;
+        }
+
+        return productDAO.updateProduct(product);
+    }
+
 }

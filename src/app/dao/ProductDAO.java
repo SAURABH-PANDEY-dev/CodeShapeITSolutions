@@ -2,7 +2,8 @@ package app.dao;
 
 import app.model.Product;
 import app.util.DBUtil;
-
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -178,4 +179,24 @@ public class ProductDAO {
         return false;
     }
 
+    public boolean exportProductsToCSV(String filePath) {
+        try (FileWriter writer = new FileWriter(filePath)) {
+            writer.write("ID,Name,Quantity,Price\n"); // CSV Header
+
+            for (Product p : getAllProducts()) {
+                writer.write(String.format("%d,%s,%d,%.2f\n",
+                        p.getId(),
+                        p.getName().replace(",", ""),  // Remove commas from names to avoid CSV issues
+                        p.getQuantity(),
+                        p.getPrice()));
+            }
+
+            System.out.println("✅ Products exported successfully to CSV.");
+            return true;
+        } catch (IOException e) {
+            System.out.println("❌ Failed to export products to CSV.");
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

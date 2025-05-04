@@ -22,7 +22,7 @@ public class MainApp {
 
     public static void main(String[] args) {
         System.out.println("=== Welcome to Local Vendor Inventory Tracker ===");
-
+    // Export
         while (true) {
             showMenu();
             int choice = getIntInput("Enter your choice: ");
@@ -33,12 +33,24 @@ public class MainApp {
                 case 3 -> searchProduct();
                 case 4 -> updateProduct();
                 case 5 -> deleteProduct();
-                case 6 -> {
+                case 6 -> exportToCSV();
+                case 7 -> {
                     System.out.println("✅ Exiting. Thank you!");
                     return;
                 }
                 default -> System.out.println("❌ Invalid choice. Please try again.");
             }
+        }
+
+    }
+    private static void exportToCSV() {
+        System.out.println("\n--- Export Products to CSV ---");
+        String path = getStringInput("Enter file path to save (e.g., exports/products.csv): ");
+        boolean success = service.exportProductsToCSV(path);
+        if (success) {
+            System.out.println("✅ Products exported to " + path);
+        } else {
+            System.out.println("❌ Failed to export products.");
         }
     }
 
@@ -49,7 +61,8 @@ public class MainApp {
         System.out.println("3. Search Product by ID");
         System.out.println("4. Update Product");
         System.out.println("5. Delete Product");
-        System.out.println("6. Exit");
+        System.out.println("6. Export products to CSV");
+        System.out.println("7. Exit");
     }
 
     private static void addProduct() {

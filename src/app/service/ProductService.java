@@ -73,4 +73,8 @@ public class ProductService {
         return productDAO.updateProduct(product);
     }
 
+    // Export products to CSV
+    public boolean exportProductsToCSV(String filePath) {
+        return productDAO.exportProductsToCSV(filePath);
+    }
 }

@@ -15,6 +15,8 @@ public class Product {
     private String name;        // Product Name
     private int quantity;       // Available quantity in Stock
     private double price;       // price per unit
+    private String category;    // category of the product
+
 
     // --- Constructors---
 
@@ -22,14 +24,24 @@ public class Product {
     public Product() {}
 
     // Parameterized Constructor
-    public Product(int id, String name, int quantity, double price){
+    public Product(int id, String name, int quantity, double price, String category) {
         this.id = id;
         this.name = name;
         this.quantity = quantity;
         this.price = price;
+        this.category = category;
     }
 
+
+
     // --- Getters and Setters ----
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
 
     public int getId(){
         return id;
@@ -65,7 +77,9 @@ public class Product {
 
     // -- toString() Method for Debugging ---
     @Override
-    public String toString(){
-        return "product {" + "id = " + id + ", Name ='" + name + '\'' + ", quantity = " + quantity + ", price = " + price + '}';
+    public String toString() {
+        return String.format("product {id = %d, Name ='%s', category='%s', quantity = %d, price = %.2f}",
+                id, name, category, quantity, price);
     }
+
 }

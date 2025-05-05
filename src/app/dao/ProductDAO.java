@@ -33,13 +33,16 @@ public class ProductDAO {
      */
     private void createTableIfNotExists() {
         String sql = """
-                CREATE TABLE IF NOT EXISTS products (
-                    id INTEGER PRIMARY KEY,
-                    name TEXT NOT NULL,
-                    quantity INTEGER NOT NULL,
-                    price REAL NOT NULL
-                );
-                """;
+    CREATE TABLE IF NOT EXISTS products (
+        id INTEGER PRIMARY KEY,
+        name TEXT NOT NULL,
+        quantity INTEGER NOT NULL,
+        price REAL NOT NULL,
+        category TEXT NOT NULL
+    );
+""";
+
+
 
         try (Connection conn = DBUtil.getConnection();
              Statement stmt = conn.createStatement()) {
@@ -64,6 +67,7 @@ public class ProductDAO {
             stmt.setString(2, product.getName());
             stmt.setInt(3, product.getQuantity());
             stmt.setDouble(4, product.getPrice());
+            stmt.setString(5, product.getCategory());
 
             stmt.executeUpdate();
             System.out.println("✅ Product added to database: " + product.getName());
@@ -90,7 +94,8 @@ public class ProductDAO {
                         rs.getInt("id"),
                         rs.getString("name"),
                         rs.getInt("quantity"),
-                        rs.getDouble("price")
+                        rs.getDouble("price"),
+                        rs.getString("category")
                 );
                 products.add(p);
             }
@@ -120,7 +125,8 @@ public class ProductDAO {
                         rs.getInt("id"),
                         rs.getString("name"),
                         rs.getInt("quantity"),
-                        rs.getDouble("price")
+                        rs.getDouble("price"),
+                        rs.getString("category")
                 );
             }
 
@@ -169,6 +175,7 @@ public class ProductDAO {
             stmt.setString(1, product.getName());
             stmt.setInt(2, product.getQuantity());
             stmt.setDouble(3, product.getPrice());
+            stmt.setString(4, product.getCategory());
             stmt.setInt(4, product.getId());
 
             int affected = stmt.executeUpdate();
@@ -184,14 +191,15 @@ public class ProductDAO {
 
     public boolean exportProductsToCSV(String filePath) {
         try (FileWriter writer = new FileWriter(filePath)) {
-            writer.write("ID,Name,Quantity,Price\n"); // CSV Header
+            writer.write("ID,Name,Quantity,Price,Category\n"); // CSV Header
 
             for (Product p : getAllProducts()) {
-                writer.write(String.format("%d,%s,%d,%.2f\n",
+                writer.write(String.format("%d,%s,%d,%.2f,%s\n",
                         p.getId(),
-                        p.getName().replace(",", ""),  // Remove commas from names to avoid CSV issues
+                        p.getName().replace(",", ""),
                         p.getQuantity(),
-                        p.getPrice()));
+                        p.getPrice(),
+                        p.getCategory()));
             }
 
             System.out.println("✅ Products exported successfully to CSV.");
@@ -245,6 +253,10 @@ public class ProductDAO {
      * Imports products from a CSV file.
      * Assumes the CSV has header: ID,Name,Quantity,Price
      */
+    /**
+     * Imports products from a CSV file.
+     * Assumes the CSV has header: ID,Name,Quantity,Price,Category
+     */
     public int importFromCSV(String filePath) {
         int importCount = 0;
 
@@ -254,15 +266,16 @@ public class ProductDAO {
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(",");
 
-                if (parts.length != 4) continue;
+                if (parts.length != 5) continue; // ✅ Expect 5 fields now
 
                 int id = Integer.parseInt(parts[0].trim());
                 String name = parts[1].trim();
                 int qty = Integer.parseInt(parts[2].trim());
                 double price = Double.parseDouble(parts[3].trim());
+                String category = parts[4].trim(); // ✅ New field
 
-                Product p = new Product(id, name, qty, price);
-                addProduct(p); // Reuse existing addProduct method
+                Product p = new Product(id, name, qty, price, category); // ✅ Use updated constructor
+                addProduct(p); // Save to DB
                 importCount++;
             }
 

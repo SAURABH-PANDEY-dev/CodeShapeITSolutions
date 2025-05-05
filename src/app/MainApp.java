@@ -166,6 +166,8 @@
 package app;
 
 import app.view.MainWindow;
+import app.view.LoginWindow;
+import javax.swing.*;
 
 /**
  * MainApp.java
@@ -173,7 +175,7 @@ import app.view.MainWindow;
  */
 public class MainApp {
     public static void main(String[] args) {
-        // Launch the Swing UI
-        new MainWindow().createAndShowGUI();
+        // Start the application from login screen
+        SwingUtilities.invokeLater(LoginWindow::new);
     }
 }

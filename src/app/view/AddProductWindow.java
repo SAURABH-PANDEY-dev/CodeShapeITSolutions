@@ -10,6 +10,7 @@ import app.model.Product;
 public class AddProductWindow extends JFrame {
     private JTextField idField, nameField, quantityField, priceField;
     private JButton addButton;
+    private JComboBox<String> categoryDropdown;  // ✅ Category dropdown
 
     public AddProductWindow() {
         // Frame setup
@@ -20,7 +21,8 @@ public class AddProductWindow extends JFrame {
 
         // Create panel and layout
         JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(5, 2));
+        panel.setLayout(new GridLayout(6, 2));
+
 
         // Add labels and text fields
         panel.add(new JLabel("Product ID:"));
@@ -38,6 +40,13 @@ public class AddProductWindow extends JFrame {
         panel.add(new JLabel("Price:"));
         priceField = new JTextField();
         panel.add(priceField);
+
+        // ✅ Add category label and dropdown
+        panel.add(new JLabel("Category:"));
+        String[] categories = {"Electronics", "Stationery", "Groceries", "Fashion", "Other"};
+        categoryDropdown = new JComboBox<>(categories);
+        panel.add(categoryDropdown);
+
 
         // Add button
         addButton = new JButton("Add Product");
@@ -64,7 +73,8 @@ public class AddProductWindow extends JFrame {
             double price = Double.parseDouble(priceField.getText());
 
             // Create a new product object
-            Product product = new Product(id, name, quantity, price);
+            String category = categoryDropdown.getSelectedItem().toString(); // ✅ Get selected value
+            Product product = new Product(id, name, quantity, price, category); // ✅ Pass to constructor
 
             // Call the controller to add the product
             ProductController productController = new ProductController();
@@ -84,6 +94,7 @@ public class AddProductWindow extends JFrame {
         nameField.setText("");
         quantityField.setText("");
         priceField.setText("");
+        categoryDropdown.setSelectedIndex(0); // ✅ Reset dropdown
     }
 
     public static void main(String[] args) {

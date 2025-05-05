@@ -43,7 +43,7 @@ public class ViewAllProductsWindow extends JFrame {
         add(topPanel, BorderLayout.NORTH);
 
         // Table setup
-        String[] columns = {"ID", "Name", "Quantity", "Price"};
+        String[] columns = {"ID", "Name", "Category", "Quantity", "Price"};
         tableModel = new DefaultTableModel(columns, 0);
         productTable = new JTable(tableModel);
         productTable.setFont(new Font("Arial", Font.PLAIN, 14));
@@ -96,7 +96,8 @@ public class ViewAllProductsWindow extends JFrame {
         String sortOption = (String) sortBox.getSelectedItem();
 
         List<Product> filteredList = fullProductList.stream()
-                .filter(p -> p.getName().toLowerCase().contains(keyword))
+                .filter(p -> p.getName().toLowerCase().contains(keyword)
+                        || p.getCategory().toLowerCase().contains(keyword))
                 .collect(Collectors.toList());
 
         // Apply sorting
@@ -119,6 +120,7 @@ public class ViewAllProductsWindow extends JFrame {
             tableModel.addRow(new Object[]{
                     p.getId(),
                     p.getName(),
+                    p.getCategory(),
                     p.getQuantity(),
                     p.getPrice()
             });

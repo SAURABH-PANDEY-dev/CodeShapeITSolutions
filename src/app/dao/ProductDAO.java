@@ -58,7 +58,7 @@ public class ProductDAO {
      * Add a new product to the database.
      */
     public void addProduct(Product product) {
-        String sql = "INSERT INTO products (id, name, quantity, price) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO products (id, name, quantity, price,category) VALUES (?, ?, ?, ?,?)";
 
         try (Connection conn = DBUtil.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {

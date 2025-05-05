@@ -34,9 +34,9 @@ public class MainWindow {
 
         String[] buttonLabels = {
                 "Dashboard", "Add Product", "View All Products", "Search Product by ID",
-                "Update Product", "Delete Product", "Export Products to CSV",
-                "Import Products from CSV",
-                "Low Stock Alerts", "Restock Products","Record Sale",
+                "Update Product", "Delete Product", "Delete All Products",
+                "Export Products to CSV", "Import Products from CSV",
+                "Low Stock Alerts", "Restock Products", "Record Sale",
                 "Exit"
         };
 
@@ -54,6 +54,8 @@ public class MainWindow {
                 btn.setBackground(new Color(192, 57, 43)); // Red
             } else if (label.equals("Dashboard")) {
                 btn.setBackground(new Color(39, 174, 96)); // Green
+            } else if (label.equals("Delete All Products")) {
+                btn.setBackground(new Color(124,68,173));
             } else {
                 btn.setBackground(new Color(41, 128, 185)); // Blue
             }
@@ -71,6 +73,7 @@ public class MainWindow {
                 case "Restock Products" -> btn.addActionListener(e -> ProductController.showRestockProductsWindow());
                 case "Import Products from CSV" -> btn.addActionListener(e -> new ImportCSVWindow());
                 case "Record Sale" -> btn.addActionListener(e -> new RecordSaleWindow());
+                case "Delete All Products" -> btn.addActionListener(e -> new app.ui.DeleteAllConfirmationWindow());
                 case "Exit" -> btn.addActionListener(e -> System.exit(0));
             }
 

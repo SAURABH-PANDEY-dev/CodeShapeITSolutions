@@ -154,6 +154,15 @@ public class ProductController {
     }
 
     /**
+     * Deletes all products in the database.
+     *
+     * @return true if successful, false otherwise
+     */
+    public boolean deleteAllProducts() {
+        return productDAO.deleteAllProducts();
+    }
+
+    /**
      * Gets all products that are low in stock using ProductDAO.
      *
      * @return List of low stock products

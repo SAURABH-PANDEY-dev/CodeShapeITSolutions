@@ -297,4 +297,23 @@ public class ProductDAO {
         return false;
     }
 
+    /**
+     * Deletes all products from the database.
+     *
+     * @return true if deletion successful, false otherwise.
+     */
+    public boolean deleteAllProducts() {
+        String sql = "DELETE FROM products";
+        try (Connection conn = DBUtil.getConnection();  // FIXED HERE
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.executeUpdate();
+            System.out.println("✅ All products deleted from database.");
+            return true;
+        } catch (SQLException e) {
+            System.out.println("❌ Failed to delete all products.");
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 }

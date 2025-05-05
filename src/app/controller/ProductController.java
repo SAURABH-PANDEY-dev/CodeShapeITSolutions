@@ -1,10 +1,13 @@
 package app.controller;
 
 import app.dao.ProductDAO;
+import app.dao.SalesDAO;
 import app.model.InventoryStats;
 import app.model.Product;
 import java.util.Comparator;
 import java.util.stream.Collectors;
+
+import app.model.Sale;
 import app.view.AddProductWindow;
 import app.view.ViewAllProductsWindow;
 import app.view.SearchProductWindow;
@@ -192,6 +195,34 @@ public class ProductController {
             System.err.println("Error generating inventory stats: " + e.getMessage());
             return new InventoryStats(0, 0, 0, null);
         }
+    }
+
+    /**
+     * Wrapper to call import method from DAO.
+     */
+    public int importProductsFromCSV(String filePath) {
+        ProductDAO dao = new ProductDAO();
+        return dao.importFromCSV(filePath);
+    }
+
+    private SalesDAO salesDAO = new SalesDAO();
+
+    /**
+     * Handles sale: reduce stock and save sale info.
+     */
+    public boolean recordSale(int productId, int quantity) {
+        Product product = productDAO.getProductById(productId);
+
+        if (product != null && quantity > 0 && product.getQuantity() >= quantity) {
+            boolean reduced = productDAO.reduceStock(productId, quantity);
+            if (reduced) {
+                double total = quantity * product.getPrice();
+                Sale sale = new Sale(productId, product.getName(), quantity, total);
+                salesDAO.recordSale(sale);
+                return true;
+            }
+        }
+        return false;
     }
 
 }

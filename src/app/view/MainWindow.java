@@ -35,8 +35,11 @@ public class MainWindow {
         String[] buttonLabels = {
                 "Dashboard", "Add Product", "View All Products", "Search Product by ID",
                 "Update Product", "Delete Product", "Export Products to CSV",
-                "Low Stock Alerts", "Restock Products", "Exit"
+                "Import Products from CSV",
+                "Low Stock Alerts", "Restock Products","Record Sale",
+                "Exit"
         };
+
 
         for (String label : buttonLabels) {
             JButton btn = new JButton(label);
@@ -66,6 +69,8 @@ public class MainWindow {
                 case "Export Products to CSV" -> btn.addActionListener(e -> ProductController.exportProductsToCSV());
                 case "Low Stock Alerts" -> btn.addActionListener(e -> new LowStockWindow());
                 case "Restock Products" -> btn.addActionListener(e -> ProductController.showRestockProductsWindow());
+                case "Import Products from CSV" -> btn.addActionListener(e -> new ImportCSVWindow());
+                case "Record Sale" -> btn.addActionListener(e -> new RecordSaleWindow());
                 case "Exit" -> btn.addActionListener(e -> System.exit(0));
             }
 

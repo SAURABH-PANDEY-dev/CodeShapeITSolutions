@@ -2,6 +2,9 @@ package app.dao;
 
 import app.model.Product;
 import app.util.DBUtil;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.*;
@@ -238,4 +241,47 @@ public class ProductDAO {
             return false;
         }
     }
+    /**
+     * Imports products from a CSV file.
+     * Assumes the CSV has header: ID,Name,Quantity,Price
+     */
+    public int importFromCSV(String filePath) {
+        int importCount = 0;
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line = reader.readLine(); // Skip header
+
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(",");
+
+                if (parts.length != 4) continue;
+
+                int id = Integer.parseInt(parts[0].trim());
+                String name = parts[1].trim();
+                int qty = Integer.parseInt(parts[2].trim());
+                double price = Double.parseDouble(parts[3].trim());
+
+                Product p = new Product(id, name, qty, price);
+                addProduct(p); // Reuse existing addProduct method
+                importCount++;
+            }
+
+            System.out.println("✅ Imported " + importCount + " products.");
+        } catch (IOException | NumberFormatException e) {
+            System.out.println("❌ Failed to import products.");
+            e.printStackTrace();
+        }
+
+        return importCount;
+    }
+
+    public boolean reduceStock(int productId, int quantity) {
+        Product p = getProductById(productId);
+        if (p != null && p.getQuantity() >= quantity) {
+            p.setQuantity(p.getQuantity() - quantity);
+            return updateProduct(p); // reuse update
+        }
+        return false;
+    }
+
 }

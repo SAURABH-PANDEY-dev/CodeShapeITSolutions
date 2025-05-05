@@ -33,7 +33,7 @@ public class MainWindow {
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(30, 50, 30, 50));
 
         String[] buttonLabels = {
-                "Add Product", "View All Products", "Search Product by ID",
+                "Dashboard", "Add Product", "View All Products", "Search Product by ID",
                 "Update Product", "Delete Product", "Export Products to CSV",
                 "Low Stock Alerts", "Restock Products", "Exit"
         };
@@ -42,13 +42,22 @@ public class MainWindow {
             JButton btn = new JButton(label);
             btn.setFont(new Font("Segoe UI", Font.BOLD, 16));
             btn.setForeground(Color.WHITE);
-            btn.setBackground(label.equals("Low Stock Alerts") ? new Color(192, 57, 43) : new Color(41, 128, 185));
             btn.setFocusPainted(false);
             btn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
             btn.setPreferredSize(new Dimension(300, 45));
 
+            // Custom background colors for specific buttons
+            if (label.equals("Low Stock Alerts")) {
+                btn.setBackground(new Color(192, 57, 43)); // Red
+            } else if (label.equals("Dashboard")) {
+                btn.setBackground(new Color(39, 174, 96)); // Green
+            } else {
+                btn.setBackground(new Color(41, 128, 185)); // Blue
+            }
+
             // Attach actions
             switch (label) {
+                case "Dashboard" -> btn.addActionListener(e -> new DashboardWindow());
                 case "Add Product" -> btn.addActionListener(e -> ProductController.showAddProductWindow());
                 case "View All Products" -> btn.addActionListener(e -> ProductController.showViewAllProducts());
                 case "Search Product by ID" -> btn.addActionListener(e -> ProductController.showSearchProductWindow());
@@ -58,7 +67,6 @@ public class MainWindow {
                 case "Low Stock Alerts" -> btn.addActionListener(e -> new LowStockWindow());
                 case "Restock Products" -> btn.addActionListener(e -> ProductController.showRestockProductsWindow());
                 case "Exit" -> btn.addActionListener(e -> System.exit(0));
-
             }
 
             buttonPanel.add(btn);

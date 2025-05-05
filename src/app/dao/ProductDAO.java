@@ -74,7 +74,7 @@ public class ProductDAO {
     /**
      * Retrieve all products from the database.
      */
-    public List<Product> getAllProducts() {
+    public static List<Product> getAllProducts() {
         List<Product> products = new ArrayList<>();
         String sql = "SELECT * FROM products";
 

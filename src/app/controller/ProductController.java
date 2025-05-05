@@ -1,7 +1,10 @@
 package app.controller;
 
 import app.dao.ProductDAO;
+import app.model.InventoryStats;
 import app.model.Product;
+import java.util.Comparator;
+import java.util.stream.Collectors;
 import app.view.AddProductWindow;
 import app.view.ViewAllProductsWindow;
 import app.view.SearchProductWindow;
@@ -66,6 +69,14 @@ public class ProductController {
     public static void showDeleteProductWindow() {
         // Open the Delete Product Window
         new DeleteProductWindow().createAndShowGUI();
+    }
+
+    /**
+     * Shows the Restock Low Stock Products window.
+     */
+    public static void showRestockProductsWindow() {
+        ProductController controller = new ProductController();
+        new app.view.RestockProductsWindow(controller);
     }
 
     /**
@@ -147,4 +158,40 @@ public class ProductController {
     public List<Product> getLowStockProducts() {
         return productDAO.getLowStockProducts();
     }
+
+    /**
+     * Updates the quantity of a specific product.
+     */
+    public boolean restockProduct(int id, int newQuantity) {
+        return productDAO.updateProductQuantity(id, newQuantity);
+    }
+
+    
+    /**
+     * Returns an InventoryStats object containing summary statistics.
+     */
+    public static InventoryStats getInventoryStats() {
+        try {
+            List<Product> allProducts = ProductDAO.getAllProducts(); // Direct DAO call
+
+            if (allProducts == null || allProducts.isEmpty()) {
+                return new InventoryStats(0, 0, 0, null);
+            }
+
+            int total = allProducts.size();
+            int lowStock = (int) allProducts.stream().filter(p -> p.getQuantity() > 0 && p.getQuantity() < 5).count();
+            int outOfStock = (int) allProducts.stream().filter(p -> p.getQuantity() == 0).count();
+
+            Product mostStocked = allProducts.stream()
+                    .filter(p -> p.getQuantity() > 0)
+                    .max(Comparator.comparingInt(Product::getQuantity))
+                    .orElse(null);
+
+            return new InventoryStats(total, lowStock, outOfStock, mostStocked);
+        } catch (Exception e) {
+            System.err.println("Error generating inventory stats: " + e.getMessage());
+            return new InventoryStats(0, 0, 0, null);
+        }
+    }
+
 }

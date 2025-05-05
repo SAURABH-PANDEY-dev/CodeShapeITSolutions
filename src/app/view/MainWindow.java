@@ -3,111 +3,72 @@ package app.view;
 import javax.swing.*;
 import java.awt.*;
 import app.controller.ProductController;
-import app.view.LowStockWindow;
 
 /**
  * MainWindow.java
- * This class builds the main menu window using Swing.
- * It contains buttons for each main operation in the inventory system.
+ * Modern, styled main menu for the Inventory Management System.
  */
 public class MainWindow {
 
-    /**
-     * Creates and displays the main menu UI.
-     */
     public void createAndShowGUI() {
-        // Create the main frame (window)
         JFrame frame = new JFrame("Inventory Management System");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(400, 400);
+        frame.setSize(550, 600);
 
-        // Create a panel to hold the buttons
-        JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(4,2,30,10)); // 7 rows, 1 column, spacing = 10px
+        // Title Panel
+        JLabel titleLabel = new JLabel("Inventory Management System", SwingConstants.CENTER);
+        titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 22));
+        titleLabel.setForeground(Color.WHITE);
 
-        // Create buttons for each operation
-        JButton addButton = new JButton("Add Product");
-        JButton viewButton = new JButton("View All Products");
-        JButton searchButton = new JButton("Search Product by ID");
-        JButton updateButton = new JButton("Update Product");
-        JButton deleteButton = new JButton("Delete Product");
-        JButton exportButton = new JButton("Export Products to CSV");
-        JButton lowStockBtn = new JButton("Low Stock Alerts");
-        JButton exitButton = new JButton("Exit");
+        JPanel titlePanel = new JPanel();
+        titlePanel.setBackground(new Color(44, 62, 80)); // Dark Blue-Gray
+        titlePanel.setPreferredSize(new Dimension(550, 60));
+        titlePanel.setLayout(new BorderLayout());
+        titlePanel.add(titleLabel, BorderLayout.CENTER);
 
-// Styling for the buttons
+        // Button Panel
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setBackground(new Color(52, 73, 94));
+        buttonPanel.setLayout(new GridLayout(0, 1, 15, 15));
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(30, 50, 30, 50));
 
-        // Add product button
-        addButton.setFont(new Font("Fira Code",Font.BOLD,16));
-        addButton.setBackground(new Color(191,153,143));
-        addButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        //view button
-        viewButton.setBackground(new Color(191,153,143));
-        viewButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        viewButton.setFont(new Font("Fira Code",Font.BOLD,16));
+        String[] buttonLabels = {
+                "Add Product", "View All Products", "Search Product by ID",
+                "Update Product", "Delete Product", "Export Products to CSV",
+                "Low Stock Alerts", "Restock Products", "Exit"
+        };
 
-        // search button
-        searchButton.setBackground(new Color(191,153,143));
-        searchButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        searchButton.setFont(new Font("Fira Code",Font.BOLD,16));
+        for (String label : buttonLabels) {
+            JButton btn = new JButton(label);
+            btn.setFont(new Font("Segoe UI", Font.BOLD, 16));
+            btn.setForeground(Color.WHITE);
+            btn.setBackground(label.equals("Low Stock Alerts") ? new Color(192, 57, 43) : new Color(41, 128, 185));
+            btn.setFocusPainted(false);
+            btn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            btn.setPreferredSize(new Dimension(300, 45));
 
-        // update button
-        updateButton.setBackground(new Color(191,153,143));
-        updateButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        updateButton.setFont(new Font("Fira Code",Font.BOLD,16));
+            // Attach actions
+            switch (label) {
+                case "Add Product" -> btn.addActionListener(e -> ProductController.showAddProductWindow());
+                case "View All Products" -> btn.addActionListener(e -> ProductController.showViewAllProducts());
+                case "Search Product by ID" -> btn.addActionListener(e -> ProductController.showSearchProductWindow());
+                case "Update Product" -> btn.addActionListener(e -> ProductController.showUpdateProductWindow());
+                case "Delete Product" -> btn.addActionListener(e -> ProductController.showDeleteProductWindow());
+                case "Export Products to CSV" -> btn.addActionListener(e -> ProductController.exportProductsToCSV());
+                case "Low Stock Alerts" -> btn.addActionListener(e -> new LowStockWindow());
+                case "Restock Products" -> btn.addActionListener(e -> ProductController.showRestockProductsWindow());
+                case "Exit" -> btn.addActionListener(e -> System.exit(0));
 
-        // delete button
-        deleteButton.setBackground(new Color(191,153,143));
-        deleteButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        deleteButton.setFont(new Font("Fira Code",Font.BOLD,16));
+            }
 
-        // export button
-        exportButton.setBackground(new Color(191,153,143));
-        exportButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        exitButton.setFont(new Font("Fira Code",Font.BOLD,16));
+            buttonPanel.add(btn);
+        }
 
-        // low stock button
-        lowStockBtn.setFont(new Font("Segoe UI", Font.BOLD, 16));
-        lowStockBtn.setForeground(new Color(58,62,77));
-        lowStockBtn.setBackground(new Color(220, 53, 69)); // Bootstrap Danger Red
-        lowStockBtn.setFocusPainted(false);
-        lowStockBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        lowStockBtn.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
-        lowStockBtn.setToolTipText("View products that are low in stock");
-
-        // exit button
-        exitButton.setBackground(new Color(191,153,143));
-        exitButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        exitButton.setFont(new Font("Fira Code",Font.BOLD,16));
-
-// Add action
-        lowStockBtn.addActionListener(e -> new LowStockWindow());
-
-// Add to the panel
-        panel.add(lowStockBtn);
-
-
-        // Add action listeners to each button
-        addButton.addActionListener(e -> ProductController.showAddProductWindow());
-        viewButton.addActionListener(e -> ProductController.showViewAllProducts());
-        searchButton.addActionListener(e -> ProductController.showSearchProductWindow());
-        updateButton.addActionListener(e -> ProductController.showUpdateProductWindow());
-        deleteButton.addActionListener(e -> ProductController.showDeleteProductWindow());
-        exportButton.addActionListener(e -> ProductController.exportProductsToCSV());
-        exitButton.addActionListener(e -> System.exit(0)); // Closes the app
-
-        // Add buttons to the panel
-        panel.add(addButton);
-        panel.add(viewButton);
-        panel.add(searchButton);
-        panel.add(updateButton);
-        panel.add(deleteButton);
-        panel.add(exportButton);
-        panel.add(exitButton);
-
-        // Add panel to the frame
-        frame.add(panel);
-        frame.setLocationRelativeTo(null); // Center on screen
-        frame.setVisible(true); // Show the frame
+        // Frame Layout
+        frame.setLayout(new BorderLayout());
+        frame.add(titlePanel, BorderLayout.NORTH);
+        frame.add(buttonPanel, BorderLayout.CENTER);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
     }
 }

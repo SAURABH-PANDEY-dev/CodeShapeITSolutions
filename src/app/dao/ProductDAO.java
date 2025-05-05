@@ -217,5 +217,25 @@ public class ProductDAO {
 
         return lowStock;
     }
+    /**
+     * Updates the quantity of a product by its ID.
+     */
+    public boolean updateProductQuantity(int id, int newQuantity) {
+        String sql = "UPDATE products SET quantity = ? WHERE id = ?";
 
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, newQuantity);
+            stmt.setInt(2, id);
+
+            int affected = stmt.executeUpdate();
+            return affected > 0;
+
+        } catch (SQLException e) {
+            System.out.println("❌ Failed to update quantity for product ID: " + id);
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

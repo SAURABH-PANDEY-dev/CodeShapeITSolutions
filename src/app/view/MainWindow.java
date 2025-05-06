@@ -36,7 +36,7 @@ public class MainWindow {
                 "Dashboard", "Add Product", "View All Products", "Search Product by ID",
                 "Update Product", "Delete Product", "Delete All Products",
                 "Export Products to CSV", "Import Products from CSV",
-                "Low Stock Alerts", "Restock Products", "Record Sale","View Sales History",
+                "Low Stock Alerts", "Restock Products","Billing / POS", "Record Sale","View Sales History",
                 "View Sales Analysis",
                 "Exit (Close the Whole App)"
         };
@@ -73,6 +73,7 @@ public class MainWindow {
                 case "Low Stock Alerts" -> btn.addActionListener(e -> new LowStockWindow());
                 case "Restock Products" -> btn.addActionListener(e -> ProductController.showRestockProductsWindow());
                 case "Import Products from CSV" -> btn.addActionListener(e -> new ImportCSVWindow());
+                case "Billing / POS" -> btn.addActionListener(r -> new BillingWindow());
                 case "Record Sale" -> btn.addActionListener(e -> new RecordSaleWindow());
                 case "View Sales History" -> btn.addActionListener(e -> new ViewSalesWindow());
                 case "View Sales Analysis" -> btn.addActionListener(e -> new SalesAnalyticsWindow());

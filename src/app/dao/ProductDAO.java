@@ -166,7 +166,7 @@ public class ProductDAO {
      * @param product The product object with updated values.
      * @return true if updated successfully, false otherwise
      */
-    public boolean updateProduct(Product product) {
+    public static boolean updateProduct(Product product) {
         String sql = "UPDATE products SET name = ?, quantity = ?, price = ? WHERE id = ?";
 
         try (Connection conn = DBUtil.getConnection();

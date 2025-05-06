@@ -226,11 +226,22 @@ public class ProductController {
             boolean reduced = productDAO.reduceStock(productId, quantity);
             if (reduced) {
                 double total = quantity * product.getPrice();
-                Sale sale = new Sale(productId, product.getName(), quantity, total);
+
+                // Create Sale with all required fields
+                Sale sale = new Sale(
+                        productId,
+                        product.getName(),
+                        quantity,
+                        total,
+                        java.time.LocalDateTime.now(), // capture current date-time
+                        product.getCategory()           // include category
+                );
+
                 salesDAO.recordSale(sale);
                 return true;
             }
         }
+
         return false;
     }
 

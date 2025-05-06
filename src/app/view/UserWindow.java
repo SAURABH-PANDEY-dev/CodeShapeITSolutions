@@ -53,6 +53,8 @@ public class UserWindow extends JFrame {
      * It can open a new window or display the inventory list.
      */
     private void viewInventory() {
-        JOptionPane.showMessageDialog(this, "Viewing inventory functionality goes here.");
+        SwingUtilities.invokeLater(() -> {
+            new MainWindow().createAndShowGUI();
+        });
     }
 }

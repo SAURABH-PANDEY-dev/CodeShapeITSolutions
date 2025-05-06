@@ -1,5 +1,6 @@
 package app.view;
 
+import app.view.MainWindow;
 import javax.swing.*;
 import java.awt.*;
 
@@ -62,7 +63,7 @@ public class AdminWindow extends JFrame {
      */
     private void manageUsers() {
         SwingUtilities.invokeLater(() -> {
-            new app.ui.ManageUsersWindow().setVisible(true);
+            new app.view.ManageUsersWindow().setVisible(true);
         });
     }
 
@@ -72,6 +73,8 @@ public class AdminWindow extends JFrame {
      * It can open a new window or display the inventory list.
      */
     private void viewInventory() {
-        JOptionPane.showMessageDialog(this, "Viewing inventory functionality goes here.");
+        SwingUtilities.invokeLater(() -> {
+            new MainWindow().createAndShowGUI();
+        });
     }
 }

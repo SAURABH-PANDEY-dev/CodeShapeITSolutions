@@ -11,6 +11,6 @@ import javax.swing.*;
 public class MainApp {
     public static void main(String[] args) {
         // Start the application from login screen
-        SwingUtilities.invokeLater(LoginWindow::new);
+//        SwingUtilities.invokeLater(LoginWindow::new);
     }
 }

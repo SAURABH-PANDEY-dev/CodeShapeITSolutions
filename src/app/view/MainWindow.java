@@ -37,7 +37,7 @@ public class MainWindow {
                 "Update Product", "Delete Product", "Delete All Products",
                 "Export Products to CSV", "Import Products from CSV",
                 "Low Stock Alerts", "Restock Products", "Record Sale",
-                "Exit"
+                "Exit (Close the Whole App)"
         };
 
 
@@ -74,7 +74,7 @@ public class MainWindow {
                 case "Import Products from CSV" -> btn.addActionListener(e -> new ImportCSVWindow());
                 case "Record Sale" -> btn.addActionListener(e -> new RecordSaleWindow());
                 case "Delete All Products" -> btn.addActionListener(e -> new app.ui.DeleteAllConfirmationWindow());
-                case "Exit" -> btn.addActionListener(e -> System.exit(0));
+                case "Exit (Close the Whole App)" -> btn.addActionListener(e -> System.exit(0));
             }
 
             buttonPanel.add(btn);

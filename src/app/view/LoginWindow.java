@@ -1,6 +1,7 @@
 package app.view;
 
 import app.dao.UserDAO;
+import app.model.User;
 
 import javax.swing.*;
 import java.awt.*;
@@ -73,15 +74,24 @@ public class LoginWindow extends JFrame {
             return;
         }
 
-        UserDAO userDAO = new UserDAO(); // Creates table & test admin if needed
-        boolean authenticated = userDAO.authenticate(username, password);
+        UserDAO userDAO = new UserDAO();
+//        userDAO.printAllUsers();  // Debug line to show saved users
+        User user = userDAO.authenticate(username, password);  // Returns a User object if authenticated
 
-        if (authenticated) {
+        if (user != null) {  // Check if user object is not null
             JOptionPane.showMessageDialog(this, "✅ Login successful!");
-            dispose(); // Close login window
-            new MainWindow().createAndShowGUI(); // Launch main app
+
+            // Check for the role (Admin or User) after login
+            if (user.getRole().equals("admin")) {  // Admin check
+                dispose(); // Close login window
+                new AdminWindow(); // Show admin window
+            } else {
+                dispose(); // Close login window
+                new UserWindow(); // Show user window
+            }
         } else {
             JOptionPane.showMessageDialog(this, "❌ Invalid credentials. Try again.");
         }
     }
+
 }

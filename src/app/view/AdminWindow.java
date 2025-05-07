@@ -6,9 +6,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 /**
- * AdminWindow.java (Enhanced UI)
+ * AdminWindow.java
  * --------------------------
- * Enhanced Admin window with icon-based interface and tooltips on hover.
  *
  * Author: Saurabh Pandey
  * Date: 07 May 2025
@@ -33,36 +32,58 @@ public class AdminWindow extends JFrame {
      * Initializes the Admin UI with icon-based buttons and tooltips.
      */
     private void initUI() {
-        // main panel layout/design
+        // === MAIN CONTENT PANEL ===
         JPanel mainPanel = new JPanel();
-        mainPanel.setBackground(new Color(34,40,49));
-//        mainPanel.setBackground(new Color(0,0,0));
-//        mainPanel.setBackground(new Color(38,50,56));
-//        mainPanel.setBackground(new Color(230,230,230));
+        mainPanel.setBackground(new Color(34, 40, 49));
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
 
-        // Welcome, Label
+        // === WELCOME LABEL ===
         JLabel welcomeLabel = new JLabel("Welcome, Admin!", JLabel.CENTER);
         welcomeLabel.setFont(new Font("Arial", Font.BOLD, 22));
         welcomeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         welcomeLabel.setBorder(BorderFactory.createEmptyBorder(10, 0, 20, 0));
         mainPanel.add(welcomeLabel);
 
-        // Manage Users Icon Button
+        // === MANAGE USERS BUTTON ===
         JButton manageUsersBtn = createIconButton(MANAGE_USERS_ICON, "Manage Users");
         manageUsersBtn.addActionListener(e -> manageUsers());
         manageUsersBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
         mainPanel.add(manageUsersBtn);
 
-        // Inventory Icon Button
+        // === INVENTORY BUTTON ===
         JButton viewInventoryBtn = createIconButton(INVENTORY_ICON, "View Inventory");
         viewInventoryBtn.addActionListener(e -> viewInventory());
-        mainPanel.add(Box.createVerticalStrut(20)); // space between icons
+        mainPanel.add(Box.createVerticalStrut(20));
         viewInventoryBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
         mainPanel.add(viewInventoryBtn);
 
-        add(mainPanel);
+        // === WRAPPER PANEL WITH BORDERLAYOUT ===
+        JPanel wrapper = new JPanel(new BorderLayout());
+        wrapper.setBackground(new Color(34, 40, 49));
+        wrapper.add(mainPanel, BorderLayout.CENTER);
+
+        // === LOGOUT BUTTON PANEL ===
+        JButton logoutBtn = new JButton("Logout");
+        logoutBtn.setForeground(Color.WHITE);
+        logoutBtn.setBackground(new Color(70, 70, 70));
+        logoutBtn.setFocusPainted(false);
+        logoutBtn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        logoutBtn.setPreferredSize(new Dimension(100, 30));
+        logoutBtn.setToolTipText("Logout");
+
+        logoutBtn.addActionListener(e -> {
+            dispose(); // Close admin window
+            SwingUtilities.invokeLater(() -> new LoginWindow()); // Back to login
+        });
+
+        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        bottomPanel.setBackground(new Color(34, 40, 49));
+        bottomPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 10));
+        bottomPanel.add(logoutBtn);
+
+        wrapper.add(bottomPanel, BorderLayout.SOUTH);
+        add(wrapper);
     }
 
     /**
@@ -112,6 +133,6 @@ public class AdminWindow extends JFrame {
      * Opens Inventory (Main) window.
      */
     private void viewInventory() {
-        SwingUtilities.invokeLater(() -> new MainWindow().createAndShowGUI());
+        SwingUtilities.invokeLater(() -> new MainWindow("admin").createAndShowGUI());
     }
 }

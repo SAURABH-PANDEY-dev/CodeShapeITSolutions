@@ -32,7 +32,11 @@ public class UserWindow extends JFrame {
         Color buttonHover = new Color(70, 70, 70);
         Color textColor = Color.WHITE;
 
-        // === PANEL SETUP ===
+        // === MAIN PANEL (BorderLayout) ===
+        JPanel mainPanel = new JPanel(new BorderLayout());
+        mainPanel.setBackground(bgColor);
+
+        // === CENTER PANEL (GridLayout for content) ===
         JPanel panel = new JPanel(new GridLayout(3, 1, 20, 20));
         panel.setBackground(bgColor);
         panel.setBorder(BorderFactory.createEmptyBorder(40, 60, 40, 60));
@@ -50,7 +54,7 @@ public class UserWindow extends JFrame {
 
         // === VIEW INVENTORY BUTTON ===
         JButton viewInventoryButton = new JButton(icon);
-        viewInventoryButton.setToolTipText("View Inventory"); // Text only on hover
+        viewInventoryButton.setToolTipText("View Inventory");
         viewInventoryButton.setBackground(buttonBg);
         viewInventoryButton.setBorderPainted(false);
         viewInventoryButton.setFocusPainted(false);
@@ -61,7 +65,6 @@ public class UserWindow extends JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 viewInventoryButton.setBackground(buttonHover);
             }
-
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 viewInventoryButton.setBackground(buttonBg);
             }
@@ -70,12 +73,45 @@ public class UserWindow extends JFrame {
         viewInventoryButton.addActionListener(e -> viewInventory());
         panel.add(viewInventoryButton);
 
-        // Empty slot to balance layout
+        // Spacer
         panel.add(Box.createVerticalStrut(30));
-        add(panel);
+        mainPanel.add(panel, BorderLayout.CENTER);
+
+        // === LOGOUT BUTTON PANEL (Bottom-right) ===
+        JPanel logoutPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        logoutPanel.setBackground(bgColor);
+        JButton logoutButton = new JButton("Logout");
+        logoutButton.setForeground(textColor);
+        logoutButton.setBackground(buttonBg);
+        logoutButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        logoutButton.setBorderPainted(false);
+        logoutButton.setFocusPainted(false);
+        logoutButton.setToolTipText("Logout");
+
+        // Hover effect
+        logoutButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                logoutButton.setBackground(buttonHover);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                logoutButton.setBackground(buttonBg);
+            }
+        });
+
+        logoutButton.addActionListener(e -> logout());
+        logoutPanel.add(logoutButton);
+        mainPanel.add(logoutPanel, BorderLayout.SOUTH);
+
+        add(mainPanel);
+    }
+
+    private void logout() {
+        JOptionPane.showMessageDialog(this, "You have been logged out.");
+        dispose(); // Close current window
+        SwingUtilities.invokeLater(() -> new LoginWindow()); // Return to log in window
     }
 
     private void viewInventory() {
-        SwingUtilities.invokeLater(() -> new MainWindow().createAndShowGUI());
+        SwingUtilities.invokeLater(() -> new MainWindow("user").createAndShowGUI());
     }
 }

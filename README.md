@@ -5,8 +5,8 @@ A fully-featured Java-based desktop Point-of-Sale and Inventory Management Syste
 ----
 # Note
 ## Use these for sample login
-**Username = admin**
-**Password = admin123**
+- **Username = admin**
+- **Password = admin123**
 
 ------
 

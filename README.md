@@ -2,7 +2,13 @@
 
 A fully-featured Java-based desktop Point-of-Sale and Inventory Management System, developed as part of the **CodeShapeIT Internship**.
 
----
+----
+# Note
+## Use these for sample login
+**Username = admin**
+**Password = admin123**
+
+------
 
 ## ✅ Features
 

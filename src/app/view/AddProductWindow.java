@@ -22,6 +22,7 @@ public class AddProductWindow extends JFrame {
         // Create panel and layout
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(6, 2));
+        panel.setBackground(new Color(84,84,84));
 
 
         // Add labels and text fields

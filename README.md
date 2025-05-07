@@ -82,16 +82,22 @@ src/
 
 ---
 
-## 📸 Sample Screenshots *(Optional if you want to add images)*
+## 📸 Sample Screenshots of different windows
 
-![img_4.png](img_4.png)
+![img.png](img.png)
 ![img_1.png](img_1.png)
 ![img_2.png](img_2.png)
 ![img_3.png](img_3.png)
+![img_4.png](img_4.png)
+![img_5.png](img_5.png)
+![img_6.png](img_6.png)
+
+
 
 ---
 
 ## 👨‍💻 Author
+
 
 **Saurabh Pandey**  
 *CodeShapeIT Solutions Internship Project (2025)*

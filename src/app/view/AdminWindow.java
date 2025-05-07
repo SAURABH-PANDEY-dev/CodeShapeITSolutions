@@ -41,6 +41,7 @@ public class AdminWindow extends JFrame {
         // === WELCOME LABEL ===
         JLabel welcomeLabel = new JLabel("Welcome, Admin!", JLabel.CENTER);
         welcomeLabel.setFont(new Font("Arial", Font.BOLD, 22));
+        welcomeLabel.setForeground(new Color(255,255,255));
         welcomeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         welcomeLabel.setBorder(BorderFactory.createEmptyBorder(10, 0, 20, 0));
         mainPanel.add(welcomeLabel);

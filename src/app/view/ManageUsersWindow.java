@@ -12,94 +12,112 @@ import java.util.List;
  * ManageUsersWindow.java
  * --------------------------
  * Displays a list of all users in a table format and allows admin to delete users.
+ * Now enhanced with a modern dark theme for consistent UI.
  *
  * Author: Saurabh Pandey
  * Date: 06 May 2025
  */
 public class ManageUsersWindow extends JFrame {
 
-    private DefaultTableModel model;  // To hold and update table data
+    private DefaultTableModel model;
 
     public ManageUsersWindow() {
         setTitle("Manage Users");
-        setSize(500, 400);
+        setSize(600, 450);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        // Panel and layout
+        // Dark background panel
         JPanel panel = new JPanel(new BorderLayout());
+        panel.setBackground(new Color(45, 52, 54));
         add(panel);
 
-        // Table Column Names
+        // Table column names
         String[] columns = {"ID", "Username", "Role"};
-
-        // Table Model
         model = new DefaultTableModel(columns, 0);
 
-        // Get all users from the database and populate the table
+        // Load users from DB
         loadUsers();
 
-        // Create a JTable with the model
+        // JTable styling
         JTable table = new JTable(model);
+        table.setBackground(new Color(55, 61, 63));
+        table.setForeground(Color.WHITE);
+        table.setGridColor(Color.GRAY);
+        table.setRowHeight(25);
+        table.setFont(new Font("Arial", Font.PLAIN, 14));
+        table.getTableHeader().setFont(new Font("Arial", Font.BOLD, 14));
+        table.getTableHeader().setBackground(new Color(35, 40, 42));
+        table.getTableHeader().setForeground(Color.WHITE);
+
         JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.getViewport().setBackground(new Color(45, 52, 54));
         panel.add(scrollPane, BorderLayout.CENTER);
 
-        // Buttons panel
+        // Button panel
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        buttonPanel.setBackground(new Color(45, 52, 54));
 
-// Delete button
-        JButton deleteButton = new JButton("Delete User");
-        deleteButton.addActionListener(e -> deleteUser(table));
-        buttonPanel.add(deleteButton);
+        // Load icons
+        ImageIcon addUserIcon = new ImageIcon(getClass().getClassLoader().getResource("resources/icons/add-user.png"));
+        ImageIcon deleteIcon = new ImageIcon(getClass().getClassLoader().getResource("resources/icons/delete-user.png"));
 
-// Add User button
-        JButton addButton = new JButton("Add User");
+
+// Icon-only button: Add User
+        JButton addButton = new JButton(addUserIcon);
+        addButton.setToolTipText("Add New User");
+        addButton.setVisible(true);
+        styleIconButton(addButton);
         addButton.addActionListener(e -> {
             AddUserDialog dialog = new AddUserDialog(this);
             dialog.setVisible(true);
         });
+
+// Icon-only button: Delete User
+        JButton deleteButton = new JButton(deleteIcon);
+        deleteButton.setToolTipText("Delete Selected User");
+        styleIconButton(deleteButton);
+        deleteButton.addActionListener(e -> deleteUser(table));
         buttonPanel.add(addButton);
-
-        panel.add(buttonPanel, BorderLayout.SOUTH);
-
+        buttonPanel.add(deleteButton);panel.add(buttonPanel, BorderLayout.SOUTH);
     }
 
     /**
-     * Fetches users from the database and updates the table.
+     * Styles icon-only buttons with transparent background and no borders.
+     */
+    private void styleIconButton(JButton button) {
+        button.setContentAreaFilled(false);
+        button.setBorderPainted(false);
+        button.setFocusPainted(false);
+        button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    }
+
+
+    /**
+     * Loads users from database and refreshes the table.
      */
     private void loadUsers() {
         UserDAO dao = new UserDAO();
         List<User> users = dao.getAllUsers();
-
-        // Clear the existing rows in the table
         model.setRowCount(0);
-
-        // Add users to the table
         for (User user : users) {
-            Object[] row = {user.getId(), user.getUsername(), user.getRole()};
-            model.addRow(row);
+            model.addRow(new Object[]{user.getId(), user.getUsername(), user.getRole()});
         }
     }
 
     /**
-     * Deletes the selected user by ID.
+     * Deletes selected user by ID after confirmation.
      */
     private void deleteUser(JTable table) {
         int row = table.getSelectedRow();
         if (row != -1) {
-            // Get the user ID from the selected row
             int userId = (int) table.getValueAt(row, 0);
-
-            // Confirm deletion
             int confirm = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete this user?", "Confirm Deletion", JOptionPane.YES_NO_OPTION);
             if (confirm == JOptionPane.YES_OPTION) {
-                // Delete the user from the database
                 UserDAO dao = new UserDAO();
-                boolean success = dao.deleteUserById(userId);
-
-                if (success) {
+                if (dao.deleteUserById(userId)) {
                     JOptionPane.showMessageDialog(this, "User deleted successfully!");
-                    loadUsers();  // Refresh the table
+                    loadUsers();
                 } else {
                     JOptionPane.showMessageDialog(this, "Failed to delete user.");
                 }
@@ -109,8 +127,20 @@ public class ManageUsersWindow extends JFrame {
         }
     }
 
+    /**
+     * Applies dark button styling.
+     */
+    private void styleButton(JButton button) {
+        button.setBackground(new Color(33, 140, 116));
+        button.setForeground(Color.WHITE);
+        button.setFocusPainted(false);
+        button.setFont(new Font("Arial", Font.BOLD, 13));
+    }
+
+    /**
+     * Refreshes the users list externally.
+     */
     public void refreshUsers() {
         loadUsers();
     }
-
 }

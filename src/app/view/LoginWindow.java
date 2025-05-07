@@ -6,6 +6,7 @@ import app.model.User;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.net.URL;
 
 /**
  * LoginWindow.java
@@ -143,13 +144,13 @@ public class LoginWindow extends JFrame {
     /**
      * Loads and scales icon from file path.
      *
-     * @param path relative path to icon
+     * @param resourcePath relative path to icon
      * @return ImageIcon instance
      */
     private ImageIcon loadIcon(String resourcePath) {
         try {
             // Load from classpath
-            java.net.URL iconURL = getClass().getClassLoader().getResource(resourcePath);
+            URL iconURL = getClass().getClassLoader().getResource(resourcePath);
             if (iconURL != null) {
                 ImageIcon icon = new ImageIcon(iconURL);
                 Image scaled = icon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
@@ -180,7 +181,26 @@ public class LoginWindow extends JFrame {
 
         if (user != null) {
             JOptionPane.showMessageDialog(this, "Login successful! Welcome, " + user.getUsername());
-            // TODO: Open dashboard window here
+
+            // Open different windows based on user role
+            String role = user.getRole().toLowerCase(); // e.g., "admin", "user", etc.
+
+            SwingUtilities.invokeLater(() -> {
+                dispose(); // close login window
+
+                switch (role) {
+                    case "admin":
+                        new AdminWindow(); // pass user if needed
+                        break;
+//                    case "manager":
+//                        new ManagerDashboardWindow(user);
+//                        break;
+                    case "user":
+                    default:
+                        new UserWindow();
+                        break;
+                }
+            });
         } else {
             JOptionPane.showMessageDialog(this, "Invalid credentials.");
         }

@@ -15,46 +15,67 @@ import java.awt.*;
 public class UserWindow extends JFrame {
 
     public UserWindow() {
-        // Set window properties
         setTitle("User - Inventory System");
-        setSize(600, 400); // Window size
+        setSize(600, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null); // Center the window on the screen
-        setResizable(false); // Disable resizing the window
+        setLocationRelativeTo(null);
+        setResizable(false);
 
-        initUI(); // Initialize the UI components
-        setVisible(true); // Make the window visible
+        initUI();
+        setVisible(true);
     }
 
-    /**
-     * Initializes the UI components for the User window.
-     * This includes buttons and labels specific to the User.
-     */
     private void initUI() {
-        // Panel to hold components with GridLayout
-        JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(3, 1, 10, 10));
+        // === COLORS ===
+        Color bgColor = new Color(20, 20, 20);
+        Color buttonBg = new Color(50, 50, 50);
+        Color buttonHover = new Color(70, 70, 70);
+        Color textColor = Color.WHITE;
 
-        // Welcome message
+        // === PANEL SETUP ===
+        JPanel panel = new JPanel(new GridLayout(3, 1, 20, 20));
+        panel.setBackground(bgColor);
+        panel.setBorder(BorderFactory.createEmptyBorder(40, 60, 40, 60));
+
+        // === WELCOME LABEL ===
         JLabel welcomeLabel = new JLabel("Welcome, User!", JLabel.CENTER);
+        welcomeLabel.setFont(new Font("SansSerif", Font.BOLD, 20));
+        welcomeLabel.setForeground(textColor);
         panel.add(welcomeLabel);
 
-        // Button to view inventory
-        JButton viewInventoryButton = new JButton("View Inventory");
-        viewInventoryButton.addActionListener(e -> viewInventory()); // Action to view inventory
+        // === ICON SETUP ===
+        ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource("resources/icons/manage-inventory.png"));
+        Image scaledImage = icon.getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH);
+        icon = new ImageIcon(scaledImage);
+
+        // === VIEW INVENTORY BUTTON ===
+        JButton viewInventoryButton = new JButton(icon);
+        viewInventoryButton.setToolTipText("View Inventory"); // Text only on hover
+        viewInventoryButton.setBackground(buttonBg);
+        viewInventoryButton.setBorderPainted(false);
+        viewInventoryButton.setFocusPainted(false);
+        viewInventoryButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
+        // Hover effect
+        viewInventoryButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                viewInventoryButton.setBackground(buttonHover);
+            }
+
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                viewInventoryButton.setBackground(buttonBg);
+            }
+        });
+
+        viewInventoryButton.addActionListener(e -> viewInventory());
         panel.add(viewInventoryButton);
 
-        // Add panel to the window
+        // Empty slot to balance layout
+        panel.add(Box.createVerticalStrut(30));
         add(panel);
     }
 
-    /**
-     * This method handles the event when the 'View Inventory' button is clicked.
-     * It can open a new window or display the inventory list.
-     */
     private void viewInventory() {
-        SwingUtilities.invokeLater(() -> {
-            new MainWindow().createAndShowGUI();
-        });
+        SwingUtilities.invokeLater(() -> new MainWindow().createAndShowGUI());
     }
 }

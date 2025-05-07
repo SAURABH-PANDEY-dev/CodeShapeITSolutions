@@ -38,7 +38,7 @@ public class MainWindow {
 
         // === Button Panel ===
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setBackground(new Color(112,128,144)); // color of the main panel
+        buttonPanel.setBackground(new Color(84,84,84)); // color of the main panel
         buttonPanel.setLayout(new GridLayout(3, 3, 15, 15));
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(30, 50, 30, 50));
 

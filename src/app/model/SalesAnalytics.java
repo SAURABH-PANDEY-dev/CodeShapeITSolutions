@@ -1,7 +1,11 @@
 package app.model;
 
 import app.dao.SalesDAO;
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.general.DefaultPieDataset;
 
+import javax.swing.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -16,6 +20,8 @@ import java.util.stream.Collectors;
  * 2. Best Selling Products
  * 3. Sales by Category
  * 4. Sales Over Time (Daily/Weekly/Monthly)
+ * 5. Sold Quantity by Category
+ * 6. Product-wise Sales Details
  */
 public class SalesAnalytics {
 
@@ -47,14 +53,12 @@ public class SalesAnalytics {
      * @return A list of Sale objects representing the best-selling products.
      */
     public List<Sale> getBestSellingProducts(int topN) {
-        // A map to store the total quantity sold for each product
         Map<String, Integer> salesCount = new HashMap<>();
 
         for (Sale sale : salesDAO.getAllSales()) {
             salesCount.merge(sale.getProductName(), sale.getQuantitySold(), Integer::sum);
         }
 
-        // Sort the products by quantity sold and limit the results to topN
         return salesCount.entrySet()
                 .stream()
                 .sorted((e1, e2) -> Integer.compare(e2.getValue(), e1.getValue()))
@@ -71,12 +75,51 @@ public class SalesAnalytics {
     public Map<String, Double> getSalesByCategory() {
         Map<String, Double> categoryRevenue = new HashMap<>();
 
-        // Loop through all sales and accumulate the revenue by category
         for (Sale sale : salesDAO.getAllSales()) {
             categoryRevenue.merge(sale.getCategory(), sale.getTotalPrice(), Double::sum);
         }
 
         return categoryRevenue;
+    }
+
+    /**
+     * Returns the total quantity sold for each product category.
+     *
+     * @return A map where the key is the category name and the value is the total quantity sold for that category.
+     */
+    public Map<String, Integer> getSoldQuantityByCategory() {
+        Map<String, Integer> categoryQuantity = new HashMap<>();
+
+        for (Sale sale : salesDAO.getAllSales()) {
+            categoryQuantity.merge(sale.getCategory(), sale.getQuantitySold(), Integer::sum);
+        }
+
+        return categoryQuantity;
+    }
+
+    /**
+     * Returns detailed sales information per product: product name, total quantity sold, and total revenue.
+     *
+     * @return A list of Sale objects with aggregated quantity and revenue per product.
+     */
+    public List<Sale> getProductSales() {
+        Map<String, Sale> productSalesMap = new HashMap<>();
+
+        for (Sale sale : salesDAO.getAllSales()) {
+            String productName = sale.getProductName();
+            if (productSalesMap.containsKey(productName)) {
+                Sale existing = productSalesMap.get(productName);
+                existing.setQuantitySold(existing.getQuantitySold() + sale.getQuantitySold());
+                existing.setTotalPrice(existing.getTotalPrice() + sale.getTotalPrice());
+            } else {
+                productSalesMap.put(productName, new Sale(
+                        0, productName, sale.getQuantitySold(), sale.getTotalPrice(),
+                        LocalDateTime.now(), sale.getCategory()
+                ));
+            }
+        }
+
+        return new ArrayList<>(productSalesMap.values());
     }
 
     /**
@@ -89,7 +132,6 @@ public class SalesAnalytics {
         Map<String, Double> salesTimeMap = new TreeMap<>();
         DateTimeFormatter formatter;
 
-        // Select the appropriate time period format
         switch (period.toLowerCase()) {
             case "daily":
                 formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -104,12 +146,57 @@ public class SalesAnalytics {
                 throw new IllegalArgumentException("Invalid period. Use daily, weekly, or monthly.");
         }
 
-        // Loop through sales and accumulate the revenue by the selected time period
         for (Sale sale : salesDAO.getAllSales()) {
             String key = sale.getSaleDateTime().format(formatter);
             salesTimeMap.merge(key, sale.getTotalPrice(), Double::sum);
         }
 
         return salesTimeMap;
+    }
+
+    /**
+     * Returns a map of category name to total quantity sold.
+     *
+     * @return Map with category name as key and total quantity sold as value.
+     */
+    public Map<String, Integer> getSoldQuantitiesByCategory() {
+        Map<String, Integer> quantitiesByCategory = new HashMap<>();
+
+        List<Sale> allSales = salesDAO.getAllSales();
+        for (Sale sale : allSales) {
+            String category = sale.getCategory();
+            int quantity = sale.getQuantitySold();
+            quantitiesByCategory.put(category, quantitiesByCategory.getOrDefault(category, 0) + quantity);
+        }
+
+        return quantitiesByCategory;
+    }
+
+    public JFreeChart createChartForCategoryTable(JTable table, String type) {
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        DefaultPieDataset pieDataset = new DefaultPieDataset();
+
+        for (int i = 0; i < table.getRowCount(); i++) {
+            String category = table.getValueAt(i, 0).toString();
+            Number amount = Double.parseDouble(table.getValueAt(i, 2).toString());
+            dataset.addValue(amount, "Revenue", category);
+            pieDataset.setValue(category, amount);
+        }
+
+        return SalesChartFactory.create(type, "Category Sales", dataset, pieDataset);
+    }
+
+    public JFreeChart createChartForProductTable(JTable table, String type) {
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        DefaultPieDataset pieDataset = new DefaultPieDataset();
+
+        for (int i = 0; i < table.getRowCount(); i++) {
+            String product = table.getValueAt(i, 0).toString();
+            Number amount = Double.parseDouble(table.getValueAt(i, 2).toString());
+            dataset.addValue(amount, "Revenue", product);
+            pieDataset.setValue(product, amount);
+        }
+
+        return SalesChartFactory.create(type, "Product Sales", dataset, pieDataset);
     }
 }

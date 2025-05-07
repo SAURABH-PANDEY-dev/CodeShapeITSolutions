@@ -38,7 +38,14 @@ public class Sale {
     public int getProductId() { return productId; }
     public String getProductName() { return productName; }
     public int getQuantitySold() { return quantitySold; }
+    public void setQuantitySold(int quantitySold) {
+        this.quantitySold = quantitySold;
+    }
     public double getTotalPrice() { return totalPrice; }
+    public void setTotalPrice(double totalPrice){
+        this.totalPrice = totalPrice;
+    }
     public LocalDateTime getSaleDateTime() { return saleDateTime; }
     public String getCategory() { return category; } // Getter for category
+
 }

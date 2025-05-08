@@ -14,6 +14,9 @@ public class SearchProductWindow {
         frame.setSize(400, 300);
         frame.setLocationRelativeTo(null); // Center window
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setResizable(false);
+        frame.setUndecorated(false);
+        frame.getRootPane().setWindowDecorationStyle(JRootPane.PLAIN_DIALOG);
 
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));

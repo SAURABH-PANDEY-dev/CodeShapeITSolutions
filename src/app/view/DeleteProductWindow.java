@@ -18,6 +18,9 @@ public class DeleteProductWindow {
         frame.setSize(400, 200);
         frame.setLocationRelativeTo(null); // Center window
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setResizable(false);
+        frame.setUndecorated(false);
+        frame.getRootPane().setWindowDecorationStyle(JRootPane.PLAIN_DIALOG);
 
         JPanel panel = new JPanel(new GridLayout(3, 2, 10, 10));
         JLabel idLabel = new JLabel("Enter Product ID to Delete:");

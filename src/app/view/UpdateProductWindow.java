@@ -6,6 +6,8 @@ import app.model.Product;
 import javax.swing.*;
 import java.awt.*;
 
+import static javax.swing.SwingUtilities.getRootPane;
+
 /**
  * UpdateProductWindow.java
  * This class represents the UI for updating a product's details.
@@ -18,6 +20,9 @@ public class UpdateProductWindow {
         frame.setSize(400, 350);  // Slightly increased height for category
         frame.setLocationRelativeTo(null); // Center window
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setResizable(false);
+        frame.setUndecorated(false);
+        frame.getRootPane().setWindowDecorationStyle(JRootPane.PLAIN_DIALOG);
         frame.setLayout(new GridLayout(7, 2, 5, 5)); // 7 rows for new category
 
         // --- Input Fields ---

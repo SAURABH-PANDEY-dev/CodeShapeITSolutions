@@ -6,7 +6,8 @@ import javax.swing.*;
 
 /**
  * MainApp.java
- * Entry point of the Inventory Management Application.
+ * Entry point of the Inventory Management Application
+ * Author : Saurabh Pandey.
  */
 public class MainApp {
     public static void main(String[] args) {

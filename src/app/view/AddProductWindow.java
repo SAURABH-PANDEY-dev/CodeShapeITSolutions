@@ -18,6 +18,9 @@ public class AddProductWindow extends JFrame {
         setSize(400, 300);
         setLocationRelativeTo(null); // Center window
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Close only the form
+        setResizable(false);
+        setUndecorated(false);
+        getRootPane().setWindowDecorationStyle(JRootPane.PLAIN_DIALOG);
 
         // Create panel and layout
         JPanel panel = new JPanel();

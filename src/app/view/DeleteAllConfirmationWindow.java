@@ -22,6 +22,9 @@ public class DeleteAllConfirmationWindow extends JFrame {
         setSize(400, 150);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setResizable(false);
+        setUndecorated(false);
+        getRootPane().setWindowDecorationStyle(JRootPane.PLAIN_DIALOG);
 
         JLabel label = new JLabel("Are you sure you want to delete ALL products?");
         label.setHorizontalAlignment(SwingConstants.CENTER);

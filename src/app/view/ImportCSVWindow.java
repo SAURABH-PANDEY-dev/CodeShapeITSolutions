@@ -17,6 +17,9 @@ public class ImportCSVWindow extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
+        setResizable(false);
+        setUndecorated(false);
+        getRootPane().setWindowDecorationStyle(JRootPane.PLAIN_DIALOG);
 
         JLabel label = new JLabel("Click below to select a CSV file to import products:", SwingConstants.CENTER);
         label.setFont(new Font("Segoe UI", Font.PLAIN, 14));

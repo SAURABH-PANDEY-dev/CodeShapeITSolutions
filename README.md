@@ -9,6 +9,14 @@ A fully-featured Java-based desktop Point-of-Sale and Inventory Management Syste
 - **Password = admin123**
 
 ------
+## Deployment link
+
+**Download the JAR File :**
+https://drive.google.com/file/d/14ycVWlJjrn4m_Xdqy7yPSjrM-JW-Tsaa/view?usp=sharing
+
+make sure you have jdk installed in your system
+
+-----
 
 ## ✅ Features
 

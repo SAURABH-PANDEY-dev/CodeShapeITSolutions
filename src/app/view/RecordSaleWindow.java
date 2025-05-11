@@ -3,7 +3,6 @@ package app.view;
 import app.dao.SalesDAO;
 import app.model.Product;
 import app.model.Sale;
-import app.util.DBUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,9 +17,8 @@ import java.time.LocalDateTime;
 public class RecordSaleWindow extends JFrame {
     private JComboBox<Product> productComboBox;
     private JTextField quantityField;
-    private JButton recordButton;
 
-    private SalesDAO salesDAO;
+    private final SalesDAO salesDAO;
 
     public RecordSaleWindow() {
         setTitle("Record Sale");
@@ -43,9 +41,9 @@ public class RecordSaleWindow extends JFrame {
     private void initComponents() {
         productComboBox = new JComboBox<>();
         quantityField = new JTextField(10);
-        recordButton = new JButton("Record Sale");
+        JButton recordButton = new JButton("Record Sale");
 
-        // TODO: Replace this with actual product loading from your ProductDAO
+        // Replace this with actual product loading from your ProductDAO
         // Dummy example:
         // productComboBox.addItem(new Product(1, "Pen", "Stationery", 10.0, 50));
         for (Product p : app.dao.ProductDAO.getAllProducts()) {

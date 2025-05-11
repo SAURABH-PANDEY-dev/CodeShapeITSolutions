@@ -13,9 +13,8 @@ import java.util.List;
  */
 public class RestockProductsWindow extends JFrame {
 
-    private JTable table;
     private DefaultTableModel tableModel;
-    private ProductController controller;
+    private final ProductController controller;
 
     public RestockProductsWindow(ProductController controller) {
         this.controller = controller;
@@ -39,7 +38,7 @@ public class RestockProductsWindow extends JFrame {
         panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         JLabel titleLabel = new JLabel("Low Stock Products - Restock");
-        titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 24));
+        titleLabel.setFont(new Font("Segue UI", Font.BOLD, 24));
         titleLabel.setForeground(new Color(40, 75, 99));
         titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
         panel.add(titleLabel, BorderLayout.NORTH);
@@ -53,19 +52,29 @@ public class RestockProductsWindow extends JFrame {
         };
 
         // Table setup
-        table = new JTable(tableModel);
+        JTable table = new JTable(tableModel);
         table.setRowHeight(28);
-        table.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        table.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 14));
+        table.setFont(new Font("Segue UI", Font.PLAIN, 14));
+        table.getTableHeader().setFont(new Font("Segue UI", Font.BOLD, 14));
         table.getTableHeader().setBackground(new Color(200, 230, 250));
         JScrollPane scrollPane = new JScrollPane(table);
         panel.add(scrollPane, BorderLayout.CENTER);
 
         // Button
+        JPanel btnPanel = getPanel(panel);
+        panel.add(btnPanel, BorderLayout.SOUTH);
+
+        // Populate table with low stock
+        loadLowStockProducts();
+
+        add(panel);
+    }
+
+    private JPanel getPanel(JPanel panel) {
         JButton updateBtn = new JButton("Update Stock");
         updateBtn.setBackground(new Color(0, 123, 255));
         updateBtn.setForeground(Color.WHITE);
-        updateBtn.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        updateBtn.setFont(new Font("Segue UI", Font.BOLD, 14));
         updateBtn.setFocusPainted(false);
         updateBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
         updateBtn.addActionListener(e -> updateStock());
@@ -73,12 +82,7 @@ public class RestockProductsWindow extends JFrame {
         JPanel btnPanel = new JPanel();
         btnPanel.setBackground(panel.getBackground());
         btnPanel.add(updateBtn);
-        panel.add(btnPanel, BorderLayout.SOUTH);
-
-        // Populate table with low stock
-        loadLowStockProducts();
-
-        add(panel);
+        return btnPanel;
     }
 
     /**

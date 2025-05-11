@@ -8,7 +8,6 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,12 +19,11 @@ import java.util.stream.Collectors;
  */
 public class ViewSalesWindow extends JFrame {
 
-    private DefaultTableModel tableModel;
-    private JTable table;
-    private JComboBox<String> categoryComboBox;
-    private JTextField fromDateField;
-    private JTextField toDateField;
-    private List<Sale> allSales;
+    private final DefaultTableModel tableModel;
+    private final JComboBox<String> categoryComboBox;
+    private final JTextField fromDateField;
+    private final JTextField toDateField;
+    private final List<Sale> allSales;
 
     public ViewSalesWindow() {
         setTitle("Sales History");
@@ -60,7 +58,7 @@ public class ViewSalesWindow extends JFrame {
         // Table setup
         String[] columnNames = {"Product ID", "Product Name", "Quantity Sold", "Total Price", "Date-Time", "Category"};
         tableModel = new DefaultTableModel(columnNames, 0);
-        table = new JTable(tableModel);
+        JTable table = new JTable(tableModel);
         add(new JScrollPane(table), BorderLayout.CENTER);
 
         // Load all sales data
@@ -97,6 +95,7 @@ public class ViewSalesWindow extends JFrame {
 
         List<Sale> filtered = allSales.stream()
                 .filter(sale -> {
+                    assert selectedCategory != null;
                     boolean matchesCategory = selectedCategory.equals("All") || selectedCategory.equals(sale.getCategory());
 
                     boolean matchesDate = true;

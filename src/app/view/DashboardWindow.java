@@ -1,7 +1,6 @@
 package app.view;
 
 import app.controller.ProductController;
-import app.model.Product;
 import app.model.InventoryStats;
 
 import javax.swing.*;

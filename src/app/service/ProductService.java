@@ -11,13 +11,12 @@ import java.util.List;
  * Acts as a service layer between the controller (MainApp)
  * and data access layer (ProductDAO).
  * This layer is responsible for business logic and validation.
- *
  * Author: Saurabh Pandey
  * Date: 04 May 2025
  */
 public class ProductService {
 
-    private ProductDAO productDAO;
+    private final ProductDAO productDAO;
 
     // Constructor
     public ProductService() {
@@ -41,7 +40,7 @@ public class ProductService {
 
     // Get all products
     public List<Product> getAllProducts() {
-        return productDAO.getAllProducts();
+        return ProductDAO.getAllProducts();
     }
 
     // Get product by ID
@@ -70,13 +69,12 @@ public class ProductService {
             return false;
         }
 
-        return productDAO.updateProduct(product);
+        return ProductDAO.updateProduct(product);
     }
 
     // Export products to CSV
     public boolean exportProductsToCSV(String filePath) {
         return productDAO.exportProductsToCSV(filePath);
     }
-
 
 }

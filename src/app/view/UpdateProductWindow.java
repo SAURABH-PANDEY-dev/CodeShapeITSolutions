@@ -5,8 +5,7 @@ import app.model.Product;
 
 import javax.swing.*;
 import java.awt.*;
-
-import static javax.swing.SwingUtilities.getRootPane;
+import java.util.Objects;
 
 /**
  * UpdateProductWindow.java
@@ -104,7 +103,7 @@ public class UpdateProductWindow {
                 String name = nameField.getText();
                 int qty = Integer.parseInt(qtyField.getText());
                 double price = Double.parseDouble(priceField.getText());
-                String category = categoryDropdown.getSelectedItem().toString(); // ✅ Get selected category
+                String category = Objects.requireNonNull(categoryDropdown.getSelectedItem()).toString(); // ✅ Get selected category
 
                 Product updated = new Product(id, name, qty, price, category); // ✅ Updated constructor
                 boolean success = controller.updateProduct(updated);

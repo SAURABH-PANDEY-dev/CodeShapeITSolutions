@@ -130,21 +130,12 @@ public class SalesAnalytics {
      */
     public Map<String, Double> getSalesOverTime(String period) {
         Map<String, Double> salesTimeMap = new TreeMap<>();
-        DateTimeFormatter formatter;
-
-        switch (period.toLowerCase()) {
-            case "daily":
-                formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-                break;
-            case "weekly":
-                formatter = DateTimeFormatter.ofPattern("YYYY-'W'ww");
-                break;
-            case "monthly":
-                formatter = DateTimeFormatter.ofPattern("yyyy-MM");
-                break;
-            default:
-                throw new IllegalArgumentException("Invalid period. Use daily, weekly, or monthly.");
-        }
+        DateTimeFormatter formatter = switch (period.toLowerCase()) {
+            case "daily" -> DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            case "weekly" -> DateTimeFormatter.ofPattern("yyyy-'W'ww");
+            case "monthly" -> DateTimeFormatter.ofPattern("yyyy-MM");
+            default -> throw new IllegalArgumentException("Invalid period. Use daily, weekly, or monthly.");
+        };
 
         for (Sale sale : salesDAO.getAllSales()) {
             String key = sale.getSaleDateTime().format(formatter);

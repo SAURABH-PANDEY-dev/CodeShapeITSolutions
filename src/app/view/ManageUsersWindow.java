@@ -7,19 +7,20 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * ManageUsersWindow.java
  * --------------------------
  * Displays a list of all users in a table format and allows admin to delete users.
  * Now enhanced with a modern dark theme for consistent UI.
- *
+ * <p>
  * Author: Saurabh Pandey
  * Date: 06 May 2025
  */
 public class ManageUsersWindow extends JFrame {
 
-    private DefaultTableModel model;
+    private final DefaultTableModel model;
 
     public ManageUsersWindow() {
         setTitle("Manage Users");
@@ -59,9 +60,9 @@ public class ManageUsersWindow extends JFrame {
         buttonPanel.setBackground(new Color(45, 52, 54));
 
         // Load icons
-        ImageIcon addUserIcon = new ImageIcon(getClass().getClassLoader().getResource("resources/icons/add-user.png"));
-        ImageIcon deleteIcon = new ImageIcon(getClass().getClassLoader().getResource("resources/icons/delete-user.png"));
-
+        ImageIcon addUserIcon = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("resources/icons/add-user.png")));
+        ImageIcon deleteIcon = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("resources/icons/delete-user.png")));
+        ImageIcon backIcon = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("resources/icons/back.png")));
 
 // Icon-only button: Add User
         JButton addButton = new JButton(addUserIcon);
@@ -143,4 +144,6 @@ public class ManageUsersWindow extends JFrame {
     public void refreshUsers() {
         loadUsers();
     }
+
+
 }

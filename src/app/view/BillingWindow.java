@@ -27,7 +27,7 @@ import java.text.MessageFormat;
  * --------------------------------------------------
  * Allows users to select products, input quantities, generate a bill,
  * and record the sale in the database with a POS-style experience.
- *
+ * <p>
  * Author: Saurabh Pandey
  * Date: 06 May 2025
  */
@@ -38,9 +38,9 @@ public class BillingWindow extends JFrame {
     private DefaultTableModel tableModel;
     private JLabel totalLabel;
 
-    private List<BillItem> billItems = new ArrayList<>();
-    private ProductDAO productDAO = new ProductDAO();
-    private SalesDAO salesDAO = new SalesDAO();
+    private final List<BillItem> billItems = new ArrayList<>();
+    private final ProductDAO productDAO = new ProductDAO();
+    private final SalesDAO salesDAO = new SalesDAO();
 
     public BillingWindow() {
         setTitle("POS - Billing System");

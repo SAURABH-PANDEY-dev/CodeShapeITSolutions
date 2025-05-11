@@ -2,20 +2,14 @@ package app.view;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 /**
  * AdminWindow.java
  * --------------------------
- *
  * Author: Saurabh Pandey
  * Date: 07 May 2025
  */
 public class AdminWindow extends JFrame {
-
-    private final String MANAGE_USERS_ICON = "resources/icons/manage-users.png";
-    private final String INVENTORY_ICON = "resources/icons/manage-inventory.png";
 
     public AdminWindow() {
         setTitle("Admin - Inventory System");
@@ -47,19 +41,21 @@ public class AdminWindow extends JFrame {
         mainPanel.add(welcomeLabel);
 
         // === MANAGE USERS BUTTON ===
+        String MANAGE_USERS_ICON = "resources/icons/manage-users.png";
         JButton manageUsersBtn = createIconButton(MANAGE_USERS_ICON, "Manage Users");
-        manageUsersBtn.addActionListener(e -> manageUsers());
+        manageUsersBtn.addActionListener(_ -> manageUsers());
         manageUsersBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
         mainPanel.add(manageUsersBtn);
 
         // === INVENTORY BUTTON ===
+        String INVENTORY_ICON = "resources/icons/manage-inventory.png";
         JButton viewInventoryBtn = createIconButton(INVENTORY_ICON, "View Inventory");
         viewInventoryBtn.addActionListener(e -> viewInventory());
         mainPanel.add(Box.createVerticalStrut(20));
         viewInventoryBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
         mainPanel.add(viewInventoryBtn);
 
-        // === WRAPPER PANEL WITH BORDERLAYOUT ===
+        // === WRAPPER PANEL WITH BORDER LAYOUT ===
         JPanel wrapper = new JPanel(new BorderLayout());
         wrapper.setBackground(new Color(34, 40, 49));
         wrapper.add(mainPanel, BorderLayout.CENTER);
@@ -75,7 +71,7 @@ public class AdminWindow extends JFrame {
 
         logoutBtn.addActionListener(e -> {
             dispose(); // Close admin window
-            SwingUtilities.invokeLater(() -> new LoginWindow()); // Back to login
+            SwingUtilities.invokeLater(LoginWindow::new); // Back to log in
         });
 
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
@@ -134,6 +130,7 @@ public class AdminWindow extends JFrame {
      * Opens Inventory (Main) window.
      */
     private void viewInventory() {
-        SwingUtilities.invokeLater(() -> new MainWindow("admin").createAndShowGUI());
+        SwingUtilities.invokeLater(() -> new MainWindow("admin"));
+        dispose();
     }
 }

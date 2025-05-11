@@ -49,7 +49,7 @@ public class MainWindow {
         addMenuButton(buttonPanel, "Search Product by ID", "resources/icons/search-product.png", e -> ProductController.showSearchProductWindow());
         addMenuButton(buttonPanel, "Update Product", "resources/icons/update-product.png", e -> ProductController.showUpdateProductWindow());
         addMenuButton(buttonPanel, "Delete Product", "resources/icons/delete-product.png", e -> ProductController.showDeleteProductWindow());
-        addMenuButton(buttonPanel, "Delete All Products", "resources/icons/delete-all-product.png", e -> new app.ui.DeleteAllConfirmationWindow());
+        addMenuButton(buttonPanel, "Delete All Products", "resources/icons/delete-all-product.png", e -> new app.view.DeleteAllConfirmationWindow());
         addMenuButton(buttonPanel, "Export Products to CSV", "resources/icons/export-csv.png", e -> ProductController.exportProductsToCSV());
         addMenuButton(buttonPanel, "Import Products from CSV", "resources/icons/import-csv.png", e -> new ImportCSVWindow());
         addMenuButton(buttonPanel, "Low Stock Alerts", "resources/icons/low.png", e -> new LowStockWindow());

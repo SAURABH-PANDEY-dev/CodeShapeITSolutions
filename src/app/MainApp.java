@@ -1,6 +1,5 @@
 package app;
 
-import app.view.MainWindow;
 import app.view.LoginWindow;
 import javax.swing.*;
 

@@ -13,13 +13,11 @@ import java.util.List;
  * --------------------------------------
  * Displays a table of products that are low in stock (<= 5 units).
  * Helps vendors quickly identify which products need restocking.
- *
+ * <p>
  * Author: Saurabh Pandey
  * Date: 04 May 2025
  */
 public class LowStockWindow extends JFrame {
-
-    private final ProductController controller = new ProductController();
 
     public LowStockWindow() {
         setTitle("Low Stock Products");
@@ -40,6 +38,7 @@ public class LowStockWindow extends JFrame {
         add(scrollPane, BorderLayout.CENTER);
 
         // Fetch low stock products and populate table
+        ProductController controller = new ProductController();
         List<Product> lowStockList = controller.getLowStockProducts();
         DefaultTableModel model = new DefaultTableModel(new String[]{"ID", "Name", "Quantity", "Price"}, 0);
 

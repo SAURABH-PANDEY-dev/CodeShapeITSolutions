@@ -2,13 +2,14 @@ package app.view;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Objects;
 
 /**
  * UserWindow.java
  * ---------------------------
  * UI window for the regular user in the Inventory Management System.
  * The user can view inventory and perform basic operations.
- *
+ * <p>
  * Author: Saurabh Pandey
  * Date: 05 May 2025
  */
@@ -48,7 +49,7 @@ public class UserWindow extends JFrame {
         panel.add(welcomeLabel);
 
         // === ICON SETUP ===
-        ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource("resources/icons/manage-inventory.png"));
+        ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("resources/icons/manage-inventory.png")));
         Image scaledImage = icon.getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH);
         icon = new ImageIcon(scaledImage);
 
@@ -108,10 +109,12 @@ public class UserWindow extends JFrame {
     private void logout() {
         JOptionPane.showMessageDialog(this, "You have been logged out.");
         dispose(); // Close current window
-        SwingUtilities.invokeLater(() -> new LoginWindow()); // Return to log in window
+        SwingUtilities.invokeLater(LoginWindow::new); // Return to log in window
+        dispose();
     }
 
     private void viewInventory() {
-        SwingUtilities.invokeLater(() -> new MainWindow("user").createAndShowGUI());
+        SwingUtilities.invokeLater(() -> new MainWindow("user"));
+        dispose();
     }
 }

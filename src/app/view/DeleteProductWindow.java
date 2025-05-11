@@ -4,8 +4,6 @@ import app.controller.ProductController;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * DeleteProductWindow.java
@@ -36,22 +34,19 @@ public class DeleteProductWindow {
         panel.add(new JLabel()); // empty cell
         panel.add(messageLabel);
 
-        deleteButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    int productId = Integer.parseInt(idField.getText());
-                    ProductController controller = new ProductController();
-                    boolean success = controller.deleteProductById(productId);
+        deleteButton.addActionListener(e -> {
+            try {
+                int productId = Integer.parseInt(idField.getText());
+                ProductController controller = new ProductController();
+                boolean success = controller.deleteProductById(productId);
 
-                    if (success) {
-                        messageLabel.setText("Product deleted successfully.");
-                    } else {
-                        messageLabel.setText("Product not found.");
-                    }
-                } catch (NumberFormatException ex) {
-                    messageLabel.setText("Please enter a valid numeric ID.");
+                if (success) {
+                    messageLabel.setText("Product deleted successfully.");
+                } else {
+                    messageLabel.setText("Product not found.");
                 }
+            } catch (NumberFormatException ex) {
+                messageLabel.setText("Please enter a valid numeric ID.");
             }
         });
 

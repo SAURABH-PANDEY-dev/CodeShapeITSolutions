@@ -2,7 +2,6 @@ package app.view;
 
 import app.model.SalesAnalytics;
 import app.model.Sale;
-import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.CategoryPlot;
@@ -18,16 +17,16 @@ import java.util.Map;
 
 /**
  * SalesAnalyticsWindow
- *
+ * <p>
  * This class creates a Sales Analytics Dashboard with two sections:
  * 1. Top: Sales by Category (Table + Chart)
  * 2. Bottom: Sales by Product (Table + Chart)
- *
+ * <p>
  * Each section includes:
  * - A scrollable table displaying sales data
  * - A dropdown below the table to select chart type (bar, pie, etc.)
  * - A chart that updates based on dropdown selection
- *
+ * <p>
  * Dark theme styling is applied to all components for consistency.
  */
 public class SalesAnalyticsWindow extends JFrame {

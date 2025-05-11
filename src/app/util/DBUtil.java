@@ -9,11 +9,10 @@ import java.sql.SQLException;
  * -----------------------
  * This utility class is responsible for establishing a connection
  * to the SQLite database used in the Local Vendor Inventory Tracker system.
- *
+ * <p>
  * Why we need this:
  * - To centralize database connection logic
  * - To avoid repeating the same connection code in every DAO class
- *
  * Note: This uses a file-based SQLite database named 'inventory.db'.
  */
 public class DBUtil {

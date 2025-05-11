@@ -10,15 +10,14 @@ import java.awt.*;
  * AddUserDialog.java
  * --------------------------
  * A modal dialog to add a new user (username, password, role).
- *
  * Author: Saurabh Pandey
  * Date: 06 May 2025
  */
 public class AddUserDialog extends JDialog {
 
-    private JTextField usernameField;
-    private JPasswordField passwordField;
-    private JComboBox<String> roleCombo;
+    private final JTextField usernameField;
+    private final JPasswordField passwordField;
+    private final JComboBox<String> roleCombo;
 
     public AddUserDialog(ManageUsersWindow parent) {
         super(parent, "Add New User", true);
@@ -48,13 +47,13 @@ public class AddUserDialog extends JDialog {
         // Buttons panel
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         JButton addButton = new JButton("Add User");
-        addButton.addActionListener(e -> {
+        addButton.addActionListener(_ -> {
             addUser();
             parent.refreshUsers();  // refresh table in ManageUsersWindow
         });
 
         JButton cancelButton = new JButton("Cancel");
-        cancelButton.addActionListener(e -> dispose());
+        cancelButton.addActionListener(_ -> dispose());
 
         buttonPanel.add(addButton);
         buttonPanel.add(cancelButton);

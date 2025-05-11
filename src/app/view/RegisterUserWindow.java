@@ -11,7 +11,7 @@ import java.awt.*;
  * ----------------------------------------------------
  * A UI window that allows an admin to register a new user.
  * Uses UserDAO to insert the new user into the 'users' table.
- *
+ * <p>
  * Author: Saurabh Pandey
  * Date: 05 May 2025
  */

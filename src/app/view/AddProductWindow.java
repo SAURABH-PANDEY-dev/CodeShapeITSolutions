@@ -2,15 +2,17 @@ package app.view;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.util.Objects;
+
 import app.controller.ProductController;
 import app.model.Product;
 
 public class AddProductWindow extends JFrame {
-    private JTextField idField, nameField, quantityField, priceField;
-    private JButton addButton;
-    private JComboBox<String> categoryDropdown;  // ✅ Category dropdown
+    private final JTextField idField;
+    private final JTextField nameField;
+    private final JTextField quantityField;
+    private final JTextField priceField;
+    private final JComboBox<String> categoryDropdown;  // ✅ Category dropdown
 
     public AddProductWindow() {
         // Frame setup
@@ -53,19 +55,14 @@ public class AddProductWindow extends JFrame {
 
 
         // Add button
-        addButton = new JButton("Add Product");
+        JButton addButton = new JButton("Add Product");
         panel.add(addButton);
 
         // Add panel to frame
         add(panel);
 
         // Button listener to add product
-        addButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                addProduct();
-            }
-        });
+        addButton.addActionListener(_ -> addProduct());
     }
 
     private void addProduct() {
@@ -77,7 +74,7 @@ public class AddProductWindow extends JFrame {
             double price = Double.parseDouble(priceField.getText());
 
             // Create a new product object
-            String category = categoryDropdown.getSelectedItem().toString(); // ✅ Get selected value
+            String category = Objects.requireNonNull(categoryDropdown.getSelectedItem()).toString(); // ✅ Get selected value
             Product product = new Product(id, name, quantity, price, category); // ✅ Pass to constructor
 
             // Call the controller to add the product
@@ -103,12 +100,7 @@ public class AddProductWindow extends JFrame {
 
     public static void main(String[] args) {
         // Show the Add Product window
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new AddProductWindow().setVisible(true);
-            }
-        });
+        SwingUtilities.invokeLater(() -> new AddProductWindow().setVisible(true));
     }
 
     public void createAndShowGUI() {

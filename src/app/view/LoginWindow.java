@@ -16,7 +16,7 @@ import java.net.URL;
  * - Username and password input fields
  * - Show/hide password toggle with eye icon
  * - Authentication via UserDAO
- *
+ * <p>
  * Author: Saurabh Pandey
  * Date: 06 May 2025
  */
@@ -31,10 +31,8 @@ public class LoginWindow extends JFrame {
     private boolean passwordVisible = false;
 
     // DAO for user authentication
-    private UserDAO userDAO;
+    private final UserDAO userDAO;
 
-    // Icon paths
-    private final String EYE_OPEN_PATH = "resources/icons/eye-open.png";
     private final String EYE_CLOSED_PATH = "resources/icons/eye-closed.png";
 
     /**
@@ -119,10 +117,12 @@ public class LoginWindow extends JFrame {
      */
     private void togglePasswordVisibility() {
         if (passwordVisible) {
-            passwordField.setEchoChar('\u2022'); // Dots
+            passwordField.setEchoChar('*'); // star
             togglePasswordIcon.setIcon(loadIcon(EYE_CLOSED_PATH));
         } else {
             passwordField.setEchoChar((char) 0); // Plain text
+            // Icon paths
+            String EYE_OPEN_PATH = "resources/icons/eye-open.png";
             togglePasswordIcon.setIcon(loadIcon(EYE_OPEN_PATH));
         }
         passwordVisible = !passwordVisible;

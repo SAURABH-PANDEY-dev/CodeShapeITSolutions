@@ -7,12 +7,12 @@ import java.time.LocalDateTime;
  * date and time of the sale, and the product's category.
  */
 public class Sale {
-    private int productId;
-    private String productName;
+    private final int productId;
+    private final String productName;
     private int quantitySold;
     private double totalPrice;
-    private LocalDateTime saleDateTime;
-    private String category; // New field for product category
+    private final LocalDateTime saleDateTime;
+    private final String category; // New field for product category
 
     /**
      * Constructor to create a Sale object.

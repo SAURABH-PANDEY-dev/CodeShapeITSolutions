@@ -4,7 +4,6 @@ package app.model;
  * User.java
  * ---------------------
  * Represents a user in the system, with attributes for username, password, and role.
- *
  * Author: Saurabh Pandey
  * Date: 05 May 2025
  */

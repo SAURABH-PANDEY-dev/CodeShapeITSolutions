@@ -1,4 +1,4 @@
-package app.ui;
+package app.view;
 
 import app.controller.ProductController;
 
@@ -9,7 +9,7 @@ import java.awt.*;
  * DeleteAllConfirmationWindow.java
  * ----------------------------------------
  * UI window that asks for confirmation before deleting all products.
- *
+ * <p>
  * Author: Saurabh Pandey
  * Date: 05 May 2025
  */
@@ -29,6 +29,15 @@ public class DeleteAllConfirmationWindow extends JFrame {
         JLabel label = new JLabel("Are you sure you want to delete ALL products?");
         label.setHorizontalAlignment(SwingConstants.CENTER);
 
+        JPanel btnPanel = getPanel();
+
+        add(label, BorderLayout.CENTER);
+        add(btnPanel, BorderLayout.SOUTH);
+
+        setVisible(true);
+    }
+
+    private JPanel getPanel() {
         JButton yesBtn = new JButton("Yes, Delete All");
         JButton cancelBtn = new JButton("Cancel");
 
@@ -47,10 +56,6 @@ public class DeleteAllConfirmationWindow extends JFrame {
         JPanel btnPanel = new JPanel();
         btnPanel.add(yesBtn);
         btnPanel.add(cancelBtn);
-
-        add(label, BorderLayout.CENTER);
-        add(btnPanel, BorderLayout.SOUTH);
-
-        setVisible(true);
+        return btnPanel;
     }
 }

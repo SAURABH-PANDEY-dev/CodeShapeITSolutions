@@ -5,7 +5,6 @@ package app.model;
  * -----------------
  * This class represents a product in the local vendor inventory system.
  * It holds data like product ID, name, quantity and price.
- *
  * Author : Saurabh Pandey
  * Date : 04 May 2025
  */

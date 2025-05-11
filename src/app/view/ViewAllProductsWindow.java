@@ -14,11 +14,10 @@ import java.util.stream.Collectors;
 
 public class ViewAllProductsWindow extends JFrame {
 
-    private JTable productTable;
-    private DefaultTableModel tableModel;
-    private JTextField filterField;
-    private JComboBox<String> sortBox;
-    private List<Product> fullProductList; // Store all products before filtering
+    private final DefaultTableModel tableModel;
+    private final JTextField filterField;
+    private final JComboBox<String> sortBox;
+    private final List<Product> fullProductList; // Store all products before filtering
 
     public ViewAllProductsWindow() {
         setTitle("View All Products");
@@ -45,7 +44,7 @@ public class ViewAllProductsWindow extends JFrame {
         // Table setup
         String[] columns = {"ID", "Name", "Category", "Quantity", "Price"};
         tableModel = new DefaultTableModel(columns, 0);
-        productTable = new JTable(tableModel);
+        JTable productTable = new JTable(tableModel);
         productTable.setFont(new Font("Arial", Font.PLAIN, 14));
         productTable.setRowHeight(28);
         productTable.setSelectionBackground(new Color(135, 206, 235));
